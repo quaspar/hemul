@@ -32,7 +32,7 @@ function make_post_request(callback, postdata) {
   }
   // Note that any URL fetched here must be matched by a permission in
   // the manifest.json file!
-  var url = 'https://hemul.fria.nu/ajaxhandler.php';
+  var url = 'http://hemul.fria.nu/ajaxhandler.php';
   xhr.open('POST', url, true);
   xhr.send(postdata);
 }
