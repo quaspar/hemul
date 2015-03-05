@@ -12,7 +12,7 @@ function send_props_to_server(){
 
 function init_hemul(){
   var hemuldiv = '<div id="hemul" class="gallery-item item-1"><h1>Här ska vi visa massa hemuldata!</h1></div>';
-  $("#item-gallery div.item-1").prepend(hemuldiv);
+  $("#item-gallery div.item-0").after(hemuldiv);
   $("#item-info>div.header").hide();
 }
 
