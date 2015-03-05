@@ -4,8 +4,8 @@ Hemul
 Natur och miljö
 - Meteorologiska observationer
 - Temperatur och nederbörd
-- badvattenkvalitet om nära sjö
-- gifter i fisk
+- badvattenkvalitet
+- Miljöövervakning av Metaller och organiska miljögifter i marin biota. (Excel)
 - Fiskförekomster i sötvatten per län
 - avverkningsanmälningar
 - Framtida klimat
