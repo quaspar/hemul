@@ -1,5 +1,6 @@
 # hemul
-Hemul
+Testa chrome-tillägget:
+klona repon på datorn. Gå till "Tillägg" i Chrome. Klicka på "Lägg till okomprimerat tillägg" och leta upp katalogen extension i din repoklon.
 
 Natur och miljö
 - Meteorologiska observationer
