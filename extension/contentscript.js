@@ -16,8 +16,11 @@ function send_props_to_server(success_callback){
 	})
 }
 
+
 function init_hemul(){
-  var hemuldiv = '<div id="hemul" class="gallery-item item-1"><h1>Här ska vi visa massa hemuldata!</h1></div>';
+  $("head").append('<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>');
+
+  var hemuldiv = '<div id="hemul" class="gallery-item item-1" ng-app><div><label>Name:</label><input type="text" ng-model="yourName" placeholder="Enter a name here"><hr><h1>Hello {{yourName}}!</h1></div></div>';
   $("#item-gallery div.item-0").after(hemuldiv);
   $("#item-info>div.header").hide();
 }
