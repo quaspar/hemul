@@ -17,7 +17,13 @@ if (!isset($coordinates[0]) || !isset($coordinates[1]) || !isset($adress)) {
 
 include 'hemul.php';
 $hemul = new hemul($coordinates[0], $coordinates[1], $adress);
-json_response(array('status' => 1, 'rain' => $hemul->getRain()));	
+$array = array(
+	'status' => 1,
+	'rain' => $hemul->getRain(),
+	'elections' => $hemul->getElectionResults(),
+);
+
+json_response($array);	
 
 function json_response($array) {
 	header('Content-Type: application/json');
