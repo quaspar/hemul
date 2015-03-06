@@ -1,4 +1,4 @@
-function handle_ajax_succes(response){
+function handle_ajax_success(response){
 	alert("success!"); // debug
 	console.log(response); // debug
 	return null;
@@ -30,7 +30,7 @@ function init_hemul(){
 
 
 $( document ).ready(function() {
-	send_props_to_server(handle_ajax_succes);
+	send_props_to_server(handle_ajax_success);
     init_hemul();
 });
 
