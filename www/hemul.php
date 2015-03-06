@@ -18,7 +18,7 @@ class hemul {
 
 	private function smhiGetKey() {
 		/* http://opendata.smhi.se/apidocs/metobs/version.html */
-		/* todo cacha all the tations from http://opendata-download-metobs.smhi.se/api/version/latest/parameter/5 mysql? */
+		/* todo cache all the tations from http://opendata-download-metobs.smhi.se/api/version/latest/parameter/5 mysql? */
 	}
 
 }
