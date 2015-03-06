@@ -1,4 +1,5 @@
-function handle_ajax_succes(response = null){
+function handle_ajax_success(response){
+	console.log(response);
 	alert("success!");
 	return null;
 };
