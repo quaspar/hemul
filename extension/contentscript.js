@@ -1,4 +1,5 @@
-function handle_ajax_response(response){
+function handle_ajax_succes(response = null){
+	alert("success!");
 	return null;
 };
 
@@ -7,8 +8,11 @@ function send_props_to_server(){
 	var match=/var properties = (.*)/.exec(script_tag[0].text);
 	var postdata = "properties=" + match[1];
 	console.log(postdata); // debug
-	//$.post('http://hemul.fria.nu/ajaxhandler.php', postdata);
-	make_post_request(handle_ajax_response, postdata);
+	// Note that any URL fetched here must be matched by a permission in
+	// the manifest.json file!
+	var jqxhr = $.post('http://hemul.fria.nu/ajaxhandler.php', postdata, handle_ajax_success).fail(function() {
+    	alert( "error");
+	})
 }
 
 function init_hemul(){
@@ -16,28 +20,6 @@ function init_hemul(){
   $("#item-gallery div.item-0").after(hemuldiv);
   $("#item-info>div.header").hide();
 }
-
-
-
-function make_post_request(callback, postdata) {
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function(data) {
-    if (xhr.readyState == 4) {
-      if (xhr.status == 200) {
-        var data = xhr.responseText;
-        callback(data);
-      } else {
-        callback(null);
-      }
-    }
-  }
-  // Note that any URL fetched here must be matched by a permission in
-  // the manifest.json file!
-  var url = 'http://hemul.fria.nu/ajaxhandler.php';
-  xhr.open('POST', url, true);
-  xhr.send(postdata);
-}
-
 
 
 
