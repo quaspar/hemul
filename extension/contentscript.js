@@ -4,9 +4,10 @@ function handle_ajax_response(response){
 
 function send_props_to_server(){
 	var script_tag = $('script[type="text/javascript"]:contains("window.initMap")');
-	var match=/(var properties.*)/.exec(script_tag[0].text);
-	var postdata = "properties=" + match; // match.substring(17);
+	var match=/var properties = (.*)/.exec(script_tag[0].text);
+	var postdata = "properties=" + match[1];
 	console.log(postdata); // debug
+	//$.post('http://hemul.fria.nu/ajaxhandler.php', postdata);
 	make_post_request(handle_ajax_response, postdata);
 }
 
