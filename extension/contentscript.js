@@ -12,7 +12,7 @@ function send_props_to_server(success_callback){
 	// Note that any URL fetched here must be matched by a permission in
 	// the manifest.json file!
 	var jqxhr = $.post('http://hemul.fria.nu/ajaxhandler.php', postdata, success_callback).fail(function() {
-    	alert( "error");
+    	alert( "error"); // debug
 	})
 }
 
