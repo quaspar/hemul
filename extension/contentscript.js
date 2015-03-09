@@ -1,5 +1,5 @@
 function handle_ajax_success(response){
-	alert("success!"); // debug
+	console.log("Svar från servern:"); // debug
 	console.log(response); // debug
 	return null;
 };
@@ -18,8 +18,6 @@ function send_props_to_server(success_callback){
 
 
 function init_hemul(){
-  $("head").append('<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>');
-
   var hemuldiv = '<div id="hemul" class="gallery-item item-1" ng-app="hemul"><div><label>Name:</label><input type="text" ng-model="yourName" placeholder="Enter a name here"><hr><h1>Hello {{yourName}}!</h1></div></div>';
   $("#item-gallery div.item-0").after(hemuldiv);
   $("#item-info>div.header").hide();
