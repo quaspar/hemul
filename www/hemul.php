@@ -36,6 +36,51 @@ class hemul {
 		return $this::postRequest($url, json_encode($data), true);
 	}
 
+	public function getIncome() {
+		if (!$kommun = $this::scbGetKommun()) return NULL;
+		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/HE/HE0110/HE0110A/SamForvInk2";
+		$data = array(
+			'query' => array(
+				0 => array('code' => 'Region', 'selection' => array('filter' => 'vs:RegionKommun07EjAggr', 'values' => array(0 => $kommun))),
+				1 => array('code' => 'Kon', 'selection' => array('filter' => 'item', 'values' => array(0  => '1+2'))),
+				2 => array('code' => 'Alder', 'selection' => array('filter' => 'item', 'values' => array(0 => 'tot16+'))),
+				3 => array('code' => 'Inkomstklass', 'selection' => array('filter' => 'item', 'values' => array(
+					0 => "TOT",
+          				1 => "0",
+          				2 => "1-19",
+          				3 => "20-39",
+          				4 => "40-59",
+          				5 => "60-79",
+          				6 => "80-99",
+          				7 => "100-119",
+          				8 => "120-139",
+          				9 => "140-159",
+          				10 => "160-179",
+          				11 => "180-199",
+          				12 => "200-219",
+          				13 => "220-239",
+          				14 => "240-259",
+          				15 => "260-279",
+          				16 => "280-299",
+          				17 => "300-319",
+          				18 => "320-339",
+          				19 => "340-359",
+          				20 => "360-379",
+          				21 => "380-399",
+          				22 => "400-499",
+          				23 => "500-599",
+          				24 => "600-799",
+          				25 => "800-999",
+          				26 => "1000+"))),
+				4 => array('code' => 'ContentsCode', 'selection' => array('filter' => 'item', 'values' => array(0 => 'HE0110K1'))),
+				5 => array('code' => 'Tid', 'selection' => array('filter' => 'item', 'values' => array(0 => '2013')))
+			),
+			'response' => array('format' => 'json')
+		);
+		return $this::postRequest($url, json_encode($data), true);
+	}
+
+
 
 	private function smhiGetClosest() {
 		if (isset($this->smhiClosest) && is_array($this->smhiClosest)) return;
