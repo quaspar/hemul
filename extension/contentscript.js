@@ -18,8 +18,22 @@ function send_props_to_server(success_callback){
 
 
 function init_hemul(){
+  var numberOfSlides = $("#item-gallery div.gallery-item").length - 3;
+  var newNumber = numberOfSlides + 1;
+  var classOfLastSlide = "item-" + numberOfSlides;
+  $("#item-gallery div.gallery-item").not(".item-0").each(function(index, e){
+  	if ($(this).hasClass("item-" + numberOfSlides)){
+  		$(this).removeClass("item-" + numberOfSlides).addClass("item-" + newNumber);
+  	}
+  	else {
+     var newClass = $(this).next().attr("class");
+     $(this).attr("class", newClass);
+    }
+  });  
+  $("#item-gallery div." + classOfLastSlide).removeClass(classOfLastSlide).addClass("item-" + newNumber);
+  
   var hemuldiv = '<div id="hemul" class="gallery-item item-1" ng-app="hemul"><div><label>Name:</label><input type="text" ng-model="yourName" placeholder="Enter a name here"><hr><h1>Hello {{yourName}}!</h1></div></div>';
-  $("#item-gallery div.item-0").after(hemuldiv);
+  $("#item-gallery div.item-0").not(".cloned").after(hemuldiv);
   $("#item-info>div.header").hide();
 }
 
