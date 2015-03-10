@@ -33,7 +33,10 @@ class hemul {
 			),
 			'response' => array ('format' => 'json',),
   		);
-		return $this::postRequest($url, json_encode($data), true);
+
+		$result = $this::postRequest($url, json_encode($data), true);
+		$result = json_decode($this::removeBom($result), true);
+		return $result['data'];
 	}
 
 	public function getIncome() {
@@ -77,10 +80,15 @@ class hemul {
 			),
 			'response' => array('format' => 'json')
 		);
-		return $this::postRequest($url, json_encode($data), true);
+		$result = $this::postRequest($url, json_encode($data), true);
+		$result = json_decode($this::removeBom($result), true);
+		return $result['data'];
 	}
 
-
+	private function removeBOM($string) {
+		$bom = pack('H*','EFBBBF');
+		return preg_replace("/^$bom/", '', $string);
+	}
 
 	private function smhiGetClosest() {
 		if (isset($this->smhiClosest) && is_array($this->smhiClosest)) return;

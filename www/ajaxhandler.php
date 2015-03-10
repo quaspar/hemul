@@ -29,7 +29,6 @@ $array = array(
 	'elections' => $hemul->getElectionResults(),
 	'income' => $hemul->getIncome(),
 );
-
 json_response($array);	
 
 function json_response($array) {
