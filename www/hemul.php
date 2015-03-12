@@ -19,7 +19,7 @@ class hemul {
 		if (!$this::scbGetKommun()) return NULL;
 		$url = "http://api.kolada.se/v2/data/kpi/$kpi/municipality/" . $this->kommunKod;
 		$url .= $year ? "/year/$year" : '';
-		return json_decode(file_get_contents($url));
+		return $this::fixKoladaResponse(json_decode(file_get_contents($url), true));
 	}
 	
 	public function getElectionResults() {
@@ -111,6 +111,14 @@ class hemul {
 		foreach ($data['data'] as $elt) {
 			$array[$elt['key'][$keyIndex]] = $elt['values'][0];
 		}
+		return $array;
+	}
+
+	private function fixKoladaResponse($data) {
+		$array = array();
+		foreach($data['values'] as $elt) {
+			$array[$elt['period']] = $elt['values'][0];
+		} 
 		return $array;
 	}
 

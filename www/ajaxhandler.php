@@ -28,7 +28,9 @@ $array = array(
 	'rain' => $hemul->getRain(),
 	'elections' => $hemul->getElectionResults(),
 	'income' => $hemul->getIncome(),
-	'andel ekologisk mat i kommunens verksamhet' => $hemul->kolada('U07409'),
+	'andel ekologisk mat i kommunens verksamhet 2014' => $hemul->kolada('U07409', '2014'),
+	'andel män som vabbar' => $hemul->kolada('N00945'),
+	'skattesats totalt 2014' => $hemul->kolada('N00900', '2014'),
 );
 json_response($array);	
 
