@@ -15,11 +15,25 @@ class hemul {
 		return $url;		
 	}
 	
-	public function kolada($kpi, $year = NULL) { /* https://github.com/Hypergene/kolada */
+	public function kolada($kpis, $year = NULL, $debug = NULL) {
 		if (!$this::scbGetKommun()) return NULL;
+		$kpi = implode(',', array_values($kpis));
+		$trans = array_flip($kpis);
 		$url = "http://api.kolada.se/v2/data/kpi/$kpi/municipality/" . $this->kommunKod;
 		$url .= $year ? "/year/$year" : '';
-		return $this::fixKoladaResponse(json_decode(file_get_contents($url), true));
+		$data = json_decode(file_get_contents($url), true);
+		if (!$data) return NULL;
+		if ($debug) {
+			return $data;
+		}
+		else {
+			$array = array();
+			foreach($data['values'] as $elt) {
+				$array[$trans[$elt['kpi']]][$elt['period']] = $elt['values'][0];
+			}		
+			return $array;
+		}
+
 	}
 	
 	public function getElectionResults() {
@@ -111,14 +125,6 @@ class hemul {
 		foreach ($data['data'] as $elt) {
 			$array[$elt['key'][$keyIndex]] = $elt['values'][0];
 		}
-		return $array;
-	}
-
-	private function fixKoladaResponse($data) {
-		$array = array();
-		foreach($data['values'] as $elt) {
-			$array[$elt['period']] = $elt['values'][0];
-		} 
 		return $array;
 	}
 

@@ -23,14 +23,20 @@ if (!isset($coordinates[0]) || !isset($coordinates[1]) || !isset($adress)) {
 
 include 'hemul.php';
 $hemul = new hemul($coordinates[0], $coordinates[1], $adress);
+
+
+$kolada = array(
+	'andel eko mat' => 'U07409',
+	'andel män som vabbar' => 'N00945',
+	'skattesats' => 'N00900',
+);
+
 $array = array(
 	'status' => 1,
 	'rain' => $hemul->getRain(),
 	'elections' => $hemul->getElectionResults(),
 	'income' => $hemul->getIncome(),
-	'andel ekologisk mat i kommunens verksamhet 2014' => $hemul->kolada('U07409', '2014'),
-	'andel män som vabbar' => $hemul->kolada('N00945'),
-	'skattesats totalt 2014' => $hemul->kolada('N00900', '2014'),
+	'kolada' => $hemul->kolada($kolada),
 );
 json_response($array);	
 
