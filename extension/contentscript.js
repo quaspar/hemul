@@ -6,7 +6,7 @@ function handle_ajax_success(response){
 
 function send_props_to_server(success_callback){
 	var script_tag = $('script[type="text/javascript"]:contains("window.initMap")');
-	var match=/var properties = (.*)/.exec(script_tag[0].text);
+	var match=/properties = (.*)/.exec(script_tag[0].text);
 	var postdata = "properties=" + match[1];
 	console.log(postdata); // debug
 	// Note that any URL fetched here must be matched by a permission in
