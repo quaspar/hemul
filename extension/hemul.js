@@ -14,7 +14,14 @@
     };
   });
   
-  app.controller('WidgetController',function(){
+  app.controller('WidgetController',['$http',function($http){
+  	this.widgets = [];
+  	var widgetCtrl = this;
+  	/*
+  	$http.get('http://hemul.fria.nu/ajaxhandler.php', {directive: 'getWidgets'}).success(function(data){
+  		widgetCtrl.widgets = data;
+  	});
+  	*/
   	this.widgets = [
     {
       name: 'Nederbörd',
@@ -22,7 +29,7 @@
       data: [],
       betyg: 43,
       image: "images/gem-02.gif",
-      displayfunction: "displayRainContainer"
+      displayfunction: 'displayRainContainer'
     },
     {
       name: 'Valresultat',
@@ -30,8 +37,8 @@
 	  data:[{s: 45},{m: 20},{fp: 12},{v: 8},{kd: 11}],
 	  jfr: null,
       images: [],
-      displayfunction: "displayElectionResultContainer"
+      displayfunction: 'displayElectionResultContainer'
     }
   ];
-  });
+  }]);
 })();
