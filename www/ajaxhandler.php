@@ -28,11 +28,12 @@ $array = array(
 	'rain' => $hemul->getRain(),
 	'elections' => $hemul->getElectionResults(),
 	'income' => $hemul->getIncome(),
+	'andel ekologisk mat i kommunens verksamhet' => $hemul->kolada('U07409'),
 );
 json_response($array);	
 
 function json_response($array) {
 	header('Content-Type: application/json');
-	echo json_encode($array);
+	echo json_encode($array, JSON_FORCE_OBJECT);
 	exit();
 }

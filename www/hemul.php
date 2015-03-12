@@ -15,28 +15,28 @@ class hemul {
 		return $url;		
 	}
 	
-	public function getSnow() {
-		$this::smhiGetClosest();
-		$key = $this->smhiClosest['stationId'];
-		$url = "http://opendata-download-metobs.smhi.se/api/version/latest/parameter/8/station/$key.json";
-		return $url;
+	public function kolada($kpi, $year = NULL) { /* https://github.com/Hypergene/kolada */
+		if (!$this::scbGetKommun()) return NULL;
+		$url = "http://api.kolada.se/v2/data/kpi/$kpi/municipality/" . $this->kommunKod;
+		$url .= $year ? "/year/$year" : '';
+		return json_decode(file_get_contents($url));
 	}
-
+	
 	public function getElectionResults() {
-		if (!$kommun = $this::scbGetKommun()) return NULL;
+		if (!$this::scbGetKommun()) return NULL;
 		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/ME/ME0104/ME0104C/ME0104T3";
 		$data = array (
 			'query' => array (
-		    		0 => array ('code' => 'Region', 'selection' => array ('filter' => 'vs:RegionKommun07+BaraEjAggr', 'values' => array (0 => $kommun,),),),
+		    		0 => array ('code' => 'Region', 'selection' => array ('filter' => 'vs:RegionKommun07+BaraEjAggr', 'values' => array (0 => $this->kommunKod,),),),
 		    		1 => array ('code' => 'ContentsCode', 'selection' => array ('filter' => 'item', 'values' => array (0 => 'ME0104B7',),),),
 		    		2 => array ('code' => 'Tid', 'selection' => array ('filter' => 'item', 'values' => array (0 => '2014',),),),
 			),
 			'response' => array ('format' => 'json',),
   		);
-
 		$result = $this::postRequest($url, json_encode($data), true);
+		if (!$result) return NULL;
 		$result = json_decode($this::removeBom($result), true);
-		return $result['data'];
+		return $this::fixScbResponse($result, 1);
 	}
 
 	public function getIncome() {
@@ -44,7 +44,7 @@ class hemul {
 		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/HE/HE0110/HE0110A/SamForvInk2";
 		$data = array(
 			'query' => array(
-				0 => array('code' => 'Region', 'selection' => array('filter' => 'vs:RegionKommun07EjAggr', 'values' => array(0 => $kommun))),
+				0 => array('code' => 'Region', 'selection' => array('filter' => 'vs:RegionKommun07EjAggr', 'values' => array(0 => $this->kommunKod))),
 				1 => array('code' => 'Kon', 'selection' => array('filter' => 'item', 'values' => array(0  => '1+2'))),
 				2 => array('code' => 'Alder', 'selection' => array('filter' => 'item', 'values' => array(0 => 'tot16+'))),
 				3 => array('code' => 'Inkomstklass', 'selection' => array('filter' => 'item', 'values' => array(
@@ -81,8 +81,9 @@ class hemul {
 			'response' => array('format' => 'json')
 		);
 		$result = $this::postRequest($url, json_encode($data), true);
+		if (!$result) return NULL;
 		$result = json_decode($this::removeBom($result), true);
-		return $result['data'];
+		return $this::fixScbResponse($result, 3);
 	}
 
 	private function removeBOM($string) {
@@ -98,9 +99,19 @@ class hemul {
 	}
 
 	private function scbGetKommun() {
+		if (isset($this->kommunKod)) return $this->kommunKod;
 		$query = "select scbId from scb where kommun like '$this->adr'";
 		$res = $this->sql->query($query)->fetch_assoc();
-		return isset($res['scbId']) ? $res['scbId'] : NULL;
+		$this->kommunKod = isset($res['scbId']) ? $res['scbId'] : NULL;
+		return $this->kommunKod;
+	}
+
+	private function fixScbResponse($data, $keyIndex) {
+		$array = array();
+		foreach ($data['data'] as $elt) {
+			$array[$elt['key'][$keyIndex]] = $elt['values'][0];
+		}
+		return $array;
 	}
 
 	private function postRequest($url, $data, $json=false) {
