@@ -31,38 +31,12 @@ function init_hemul(){
     }
   });  
   $("#item-gallery div." + classOfLastSlide).removeClass(classOfLastSlide).addClass("item-" + newNumber);
-  
+  var hemulHtml = chrome.extension.getURL('/hemul.html');
   var hemuldiv = 
-  	'<div id="hemul" class="gallery-item item-1" ng-app="hemul">\
-  		<section class="tab" ng-controller="TabController as tabs">\
-        <ul class="nav nav-pills">\
-          <li ng-class="{active:tabs.isSet(0)}">\
-            <a ng-click="tabs.setTab(0)" href>Översikt</a></li>\
-          <li ng-class="{active:tabs.isSet(1)}">\
-            <a ng-click="tabs.setTab(1)" href>Miljö</a></li>\
-          <li ng-class="{active:tabs.isSet(2)}">\
-            <a ng-click="tabs.setTab(2)" href>Människor</a></li>\
-          <li ng-class="{active:tabs.isSet(3)}">\
-            <a ng-click="tabs.setTab(3)" href>Samhälle</a></li>\
-        </ul>\
-        <div ng-show="tabs.isSet(0)">\
-          <h4>Översikt</h4>\
-          <blockquote>test översikt</blockquote>\
-        </div>\
-        <div ng-show="tabs.isSet(1)">\
-          <h4>Miljö</h4>\
-          <blockquote>test miljö</blockquote>\
-        </div>\
-        <div ng-show="tabs.isSet(2)">\
-          <h4>Människor</h4>\
-          <blockquote>test människor</blockquote>\
-        </div>\
-        <div ng-show="tabs.isSet(3)">\
-          <h4>Samhälle</h4>\
-          <blockquote>test samhälle</blockquote>\
-        </div>\
-        </section>\
-  	</div>';
+  '<div id="hemul" class="gallery-item item-1" ng-app="Hemul">\
+  		<section class="tab" ng-controller="TabController as tabs" ng-include="\'' + hemulHtml + '\'">\
+  		</section>\
+  </div>';
   $("#item-gallery div.item-0").not(".cloned").after(hemuldiv);
   $("#item-info>div.header").hide();
 }
