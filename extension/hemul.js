@@ -1,29 +1,37 @@
-angular.module('hemul', [])
-  .controller('hemulController', ['$scope', function($scope) {
-    $scope.infobits = [
-      {label:'Väderhistorik', value:"testväder"},
-      {label:'Valresultat', value:"testvalresultat"}];
- 
-    $scope.addInfobit = function() {
-      $scope.infobits.push({label:$scope.infobitLabel, value:"test3"});
-      $scope.infobitLabel = '';
+(function() {
+// todo: http://learn.ionicframework.com/formulas/backend-data/
+  var app = angular.module('Hemul', []);
+
+  app.controller('TabController', function(){
+    this.tab = 0;
+
+    this.setTab = function(newValue){
+      this.tab = newValue;
     };
- /*
-    $scope.remaining = function() {
-      var count = 0;
-      angular.forEach($scope.todos, function(todo) {
-        count += todo.done ? 0 : 1;
-      });
-      return count;
+
+    this.isSet = function(tabName){
+      return this.tab === tabName;
     };
- 
-    $scope.archive = function() {
-      var oldTodos = $scope.todos;
-      $scope.todos = [];
-      angular.forEach(oldTodos, function(todo) {
-        if (!todo.done) $scope.todos.push(todo);
-      });
-    }; 
- */
-  }]);
-  // */
+  });
+  
+  app.controller('WidgetController',function(){
+  	this.widgets = [
+    {
+      name: 'Nederbörd',
+      text: "Här regnar det i snitt 8 dagar i månaden. Rikssnittet är 5 dagar i månaden.",
+      data: [],
+      betyg: 43,
+      image: "images/gem-02.gif",
+      displayfunction: "displayRainContainer"
+    },
+    {
+      name: 'Valresultat',
+      text: "Det största partiet i kommunen är Socialdemokraterna.",
+	  data:[{s: 45},{m: 20},{fp: 12},{v: 8},{kd: 11}],
+	  jfr: null,
+      images: [],
+      displayfunction: "displayElectionResultContainer"
+    }
+  ];
+  });
+})();

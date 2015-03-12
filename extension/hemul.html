@@ -1,0 +1,31 @@
+        <ul class="nav nav-pills">
+          <li ng-class="{active:tabs.isSet(0)}">
+            <a ng-click="tabs.setTab(0)" href>Översikt</a></li>
+          <li ng-class="{active:tabs.isSet(1)}">
+            <a ng-click="tabs.setTab(1)" href>Miljö</a></li>
+          <li ng-class="{active:tabs.isSet(2)}">
+            <a ng-click="tabs.setTab(2)" href>Människor</a></li>
+          <li ng-class="{active:tabs.isSet(3)}">
+            <a ng-click="tabs.setTab(3)" href>Samhälle</a></li>
+        </ul>
+        <div ng-controller="WidgetController">
+	        <div ng-show="tabs.isSet(0)">
+    	      <ul class="hemulwidgets">
+    	      	<li class="hemulwidget" ng-repeat="widget in WidgetController.widgets">
+    	      		<h3>{{widget.name}}</h3>
+    	      	</li>
+        	  </ul>
+	        </div>
+    	    <div ng-show="tabs.isSet(1)">
+        	  <h4>Miljö</h4>
+	          <blockquote>test miljö</blockquote>
+    	    </div>
+        	<div ng-show="tabs.isSet(2)">
+        	  <h4>Människor</h4>
+	          <blockquote>test människor</blockquote>
+    	    </div>
+        	<div ng-show="tabs.isSet(3)">
+        	  <h4>Samhälle</h4>
+        	  <blockquote>test samhälle</blockquote>
+       		</div>
+       	</div>

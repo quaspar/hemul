@@ -31,8 +31,12 @@ function init_hemul(){
     }
   });  
   $("#item-gallery div." + classOfLastSlide).removeClass(classOfLastSlide).addClass("item-" + newNumber);
-  
-  var hemuldiv = '<div id="hemul" class="gallery-item item-1" ng-app="hemul"><div><label>Name:</label><input type="text" ng-model="yourName" placeholder="Enter a name here"><hr><h1>Hello {{yourName}}!</h1></div></div>';
+  var hemulHtml = chrome.extension.getURL('/hemul.html');
+  var hemuldiv = 
+  '<div id="hemul" class="gallery-item item-1" ng-app="Hemul">\
+  		<section class="tab" ng-controller="TabController as tabs" ng-include="\'' + hemulHtml + '\'">\
+  		</section>\
+  </div>';
   $("#item-gallery div.item-0").not(".cloned").after(hemuldiv);
   $("#item-info>div.header").hide();
 }
