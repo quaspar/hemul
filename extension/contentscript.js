@@ -32,7 +32,37 @@ function init_hemul(){
   });  
   $("#item-gallery div." + classOfLastSlide).removeClass(classOfLastSlide).addClass("item-" + newNumber);
   
-  var hemuldiv = '<div id="hemul" class="gallery-item item-1" ng-app="hemul"><div><label>Name:</label><input type="text" ng-model="yourName" placeholder="Enter a name here"><hr><h1>Hello {{yourName}}!</h1></div></div>';
+  var hemuldiv = 
+  	'<div id="hemul" class="gallery-item item-1" ng-app="hemul">\
+  		<section class="tab" ng-controller="TabController as tabs">\
+        <ul class="nav nav-pills">\
+          <li ng-class="{active:tabs.isSet(0)}">\
+            <a ng-click="tabs.setTab(0)" href>Översikt</a></li>\
+          <li ng-class="{active:tabs.isSet(1)}">\
+            <a ng-click="tabs.setTab(1)" href>Miljö</a></li>\
+          <li ng-class="{active:tabs.isSet(2)}">\
+            <a ng-click="tabs.setTab(2)" href>Människor</a></li>\
+          <li ng-class="{active:tabs.isSet(3)}">\
+            <a ng-click="tabs.setTab(3)" href>Samhälle</a></li>\
+        </ul>\
+        <div ng-show="tabs.isSet(0)">\
+          <h4>Översikt</h4>\
+          <blockquote>test översikt</blockquote>\
+        </div>\
+        <div ng-show="tabs.isSet(1)">\
+          <h4>Miljö</h4>\
+          <blockquote>test miljö</blockquote>\
+        </div>\
+        <div ng-show="tabs.isSet(2)">\
+          <h4>Människor</h4>\
+          <blockquote>test människor</blockquote>\
+        </div>\
+        <div ng-show="tabs.isSet(3)">\
+          <h4>Samhälle</h4>\
+          <blockquote>test samhälle</blockquote>\
+        </div>\
+        </section>\
+  	</div>';
   $("#item-gallery div.item-0").not(".cloned").after(hemuldiv);
   $("#item-info>div.header").hide();
 }
