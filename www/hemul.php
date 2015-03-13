@@ -14,7 +14,8 @@ class hemul {
 		$url = "http://opendata-download-metobs.smhi.se/api/version/latest/parameter/5/station/$key.json";
 		return $url;		
 	}
-	
+
+	/* https://github.com/Hypergene/kolada */	
 	public function getKolada() {
 		if (!$kommun = $this::scbGetKommun()) return NULL; /* kolada uses the same municipality codes as scb */
 		$kpi = implode(',', array_values($this->koladaData));
@@ -30,6 +31,7 @@ class hemul {
 		return $array;
 	}
 	
+	/* http://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__ME__ME0104__ME0104C/ME0104T3/?rxid=9b9a346e-08c6-48c1-81ec-ee3ac6ec5eaa  */
 	public function getElectionresults() {
 		if (!$kommun = $this::scbGetKommun()) return NULL;
 		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/ME/ME0104/ME0104C/ME0104T3";
@@ -47,6 +49,25 @@ class hemul {
 		return $this::fixScbResponse($result, 1);
 	}
 
+	/* http://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__MI__MI0603/Skyddadnatur/?rxid=850093b7-fe55-4247-be6d-ac214d16c806 */
+	public function getProtectednature() {
+		if (!$kommun = $this::scbGetKommun()) return NULL;
+		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/MI/MI0603/Skyddadnatur";
+		$data = array (
+			'query' => array (
+				0 => array('code' => 'Region', 'selection' => array('filter' => 'vs:RegionKommun07EjAggr', 'values' => array(0 => $kommun))),
+		    		1 => array ('code' => 'Tid', 'selection' => array ('filter' => 'item', 'values' => array (0 => '2013'))),
+			),
+			'response' => array ('format' => 'json'),
+  		);
+		$result = $this::postRequest($url, json_encode($data), true);
+		if (!$result) return NULL;
+		$result = json_decode($this::removeBom($result), true);
+		return $this::fixScbResponse($result, 1, array(0, 1, 3));
+
+	}
+
+	/* http://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__HE__HE0110__HE0110A/SamForvInk2/?rxid=9b9a346e-08c6-48c1-81ec-ee3ac6ec5eaa  */
 	public function getIncome() {
 		if (!$kommun = $this::scbGetKommun()) return NULL;
 		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/HE/HE0110/HE0110A/SamForvInk2";
@@ -111,10 +132,17 @@ class hemul {
 		return isset($res['scbId']) ? $res['scbId'] : NULL;
 	}
 
-	private function fixScbResponse($data, $keyIndex) {
+	private function fixScbResponse($data, $keyIndex, $contents = NULL) { /* contents motsvarar raden/raderna i "tabellinnehåll" på SCBs hemsida */
 		$array = array();
 		foreach ($data['data'] as $elt) {
-			$array[$elt['key'][$keyIndex]] = $elt['values'][0];
+			if ($contents) {
+				foreach ($contents as $content) {
+					$array[$elt['key'][$keyIndex]][$content] = $elt['values'][$content];
+				}
+			}
+			else {
+				$array[$elt['key'][$keyIndex]] = $elt['values'][0];
+			}
 		}
 		return $array;
 	}
