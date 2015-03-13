@@ -15,33 +15,27 @@ class hemul {
 		return $url;		
 	}
 	
-	public function kolada($kpis, $year = NULL, $debug = NULL) {
-		if (!$this::scbGetKommun()) return NULL;
-		$kpi = implode(',', array_values($kpis));
-		$trans = array_flip($kpis);
-		$url = "http://api.kolada.se/v2/data/kpi/$kpi/municipality/" . $this->kommunKod;
-		$url .= $year ? "/year/$year" : '';
+	public function getKolada() {
+		if (!$kommun = $this::scbGetKommun()) return NULL; /* kolada uses the same municipality codes as scb */
+		$kpi = implode(',', array_values($this->koladaData));
+		$trans = array_flip($this->koladaData);
+		$url = "http://api.kolada.se/v2/data/kpi/$kpi/municipality/" . $kommun;
+		$url .= isset($this->koladaYear) ? "/year/" . $this->koladaYear : '';
 		$data = json_decode(file_get_contents($url), true);
 		if (!$data) return NULL;
-		if ($debug) {
-			return $data;
-		}
-		else {
-			$array = array();
-			foreach($data['values'] as $elt) {
-				$array[$trans[$elt['kpi']]][$elt['period']] = $elt['values'][0];
-			}		
-			return $array;
-		}
-
+		$array = array();
+		foreach($data['values'] as $elt) {
+			$array[$trans[$elt['kpi']]][$elt['period']] = $elt['values'][0];
+		}		
+		return $array;
 	}
 	
-	public function getElectionResults() {
-		if (!$this::scbGetKommun()) return NULL;
+	public function getElectionresults() {
+		if (!$kommun = $this::scbGetKommun()) return NULL;
 		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/ME/ME0104/ME0104C/ME0104T3";
 		$data = array (
 			'query' => array (
-		    		0 => array ('code' => 'Region', 'selection' => array ('filter' => 'vs:RegionKommun07+BaraEjAggr', 'values' => array (0 => $this->kommunKod,),),),
+		    		0 => array ('code' => 'Region', 'selection' => array ('filter' => 'vs:RegionKommun07+BaraEjAggr', 'values' => array (0 => $kommun,),),),
 		    		1 => array ('code' => 'ContentsCode', 'selection' => array ('filter' => 'item', 'values' => array (0 => 'ME0104B7',),),),
 		    		2 => array ('code' => 'Tid', 'selection' => array ('filter' => 'item', 'values' => array (0 => '2014',),),),
 			),
@@ -58,7 +52,7 @@ class hemul {
 		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/HE/HE0110/HE0110A/SamForvInk2";
 		$data = array(
 			'query' => array(
-				0 => array('code' => 'Region', 'selection' => array('filter' => 'vs:RegionKommun07EjAggr', 'values' => array(0 => $this->kommunKod))),
+				0 => array('code' => 'Region', 'selection' => array('filter' => 'vs:RegionKommun07EjAggr', 'values' => array(0 => $kommun))),
 				1 => array('code' => 'Kon', 'selection' => array('filter' => 'item', 'values' => array(0  => '1+2'))),
 				2 => array('code' => 'Alder', 'selection' => array('filter' => 'item', 'values' => array(0 => 'tot16+'))),
 				3 => array('code' => 'Inkomstklass', 'selection' => array('filter' => 'item', 'values' => array(
@@ -106,18 +100,15 @@ class hemul {
 	}
 
 	private function smhiGetClosest() {
-		if (isset($this->smhiClosest) && is_array($this->smhiClosest)) return;
 		/* http://fr.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL */
 		$query = "SELECT * , 3956 *2 * ASIN( SQRT( POWER( SIN( ( $this->lat - ABS( smhi.lat ) ) * PI( ) /180 /2 ) , 2 ) + COS( $this->lat * PI( ) /180 ) * COS( ABS( smhi.lat ) * PI( ) /180 ) * POWER( SIN( ( $this->lon - smhi.lon ) * PI( ) /180 /2 ) , 2 ) ) ) AS distance FROM smhi ORDER BY distance LIMIT 1";
-		$this->smhiClosest = $this->sql->query($query)->fetch_assoc();
+		return $this->sql->query($query)->fetch_assoc();
 	}
 
 	private function scbGetKommun() {
-		if (isset($this->kommunKod)) return $this->kommunKod;
 		$query = "select scbId from scb where kommun like '$this->adr'";
 		$res = $this->sql->query($query)->fetch_assoc();
-		$this->kommunKod = isset($res['scbId']) ? $res['scbId'] : NULL;
-		return $this->kommunKod;
+		return isset($res['scbId']) ? $res['scbId'] : NULL;
 	}
 
 	private function fixScbResponse($data, $keyIndex) {

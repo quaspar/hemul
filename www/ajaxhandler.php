@@ -7,12 +7,11 @@ error_reporting(-1);
 
 header("Access-Control-Allow-Origin: *");
 
-if (!isset($_REQUEST['properties'])) {
-	json_response(array('status' => 0, 'msg' => 'no data',));
+if (!isset($_REQUEST['properties']) || !isset($_REQUEST['directive'])) {
+	json_response(array('status' => 0, 'msg' => 'missing argument',));
 }
 
 $props = json_decode($_REQUEST['properties']);
-//print_r($props);
 $coordinates = $props[0]->coordinate;
 $adress = $props[0]->location_name;
 
@@ -20,25 +19,18 @@ if (!isset($coordinates[0]) || !isset($coordinates[1]) || !isset($adress)) {
 	json_response(array('status' => 0, 'msg' => 'error parsing data'));
 }
 
-
 include 'hemul.php';
 $hemul = new hemul($coordinates[0], $coordinates[1], $adress);
+include 'kolada.php';
+$hemul->koladaData = $kolada;
 
-
-$kolada = array(
-	'andel eko mat' => 'U07409',
-	'andel män som vabbar' => 'N00945',
-	'skattesats' => 'N00900',
-);
-
-$array = array(
-	'status' => 1,
-	'rain' => $hemul->getRain(),
-	'elections' => $hemul->getElectionResults(),
-	'income' => $hemul->getIncome(),
-	'kolada' => $hemul->kolada($kolada),
-);
-json_response($array);	
+$funcname = 'get' . ucfirst($_REQUEST['directive']);
+if (method_exists($hemul, $funcname)) {
+	json_response(array('status' => 1, $_REQUEST['directive'] => $hemul->$funcname()));
+}
+else {
+	json_response(array('status' => 0, 'msg' => 'unknown directive'));
+}
 
 function json_response($array) {
 	header('Content-Type: application/json');
