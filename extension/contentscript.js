@@ -1,3 +1,4 @@
+/*
 function handle_ajax_success(response){
 	console.log("Svar från servern:"); // debug
 	console.log(response); // debug
@@ -15,6 +16,7 @@ function send_props_to_server(success_callback){
     	alert( "error"); // debug
 	})
 }
+*/
 
 
 function init_hemul(){
@@ -45,10 +47,10 @@ function init_hemul(){
 
 
 
-$( document ).ready(function() {
-	send_props_to_server(handle_ajax_success);
+// $( document ).ready(function() {
+	// send_props_to_server(handle_ajax_success);
     init_hemul();
-});
+// });
 
 
 

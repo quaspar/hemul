@@ -15,30 +15,40 @@
   });
   
   app.controller('WidgetController',['$http',function($http){
-  	this.widgets = [];
+	this.properties = getProperties();  	
   	var widgetCtrl = this;
-  	/*
-  	$http.get('http://hemul.fria.nu/ajaxhandler.php', {directive: 'getWidgets'}).success(function(data){
-  		widgetCtrl.widgets = data;
-  	});
-  	*/
-  	this.widgets = [
-    {
-      name: 'Nederbörd',
-      text: "Här regnar det i snitt 8 dagar i månaden. Rikssnittet är 5 dagar i månaden.",
-      data: [],
-      betyg: 43,
-      image: "images/gem-02.gif",
-      displayfunction: 'displayRainContainer'
-    },
-    {
-      name: 'Valresultat',
-      text: "Det största partiet i kommunen är Socialdemokraterna.",
-	  data:[{s: 45},{m: 20},{fp: 12},{v: 8},{kd: 11}],
-	  jfr: null,
-      images: [],
-      displayfunction: 'displayElectionResultContainer'
-    }
-  ];
+
+  	this.widgets = {
+  	  	rainfall: {},
+  		electionresults: {}
+  	};
+  	
+  	$http.get('http://hemul.fria.nu/ajaxhandler.php?directive=rainfall&properties=' + widgetCtrl.properties)
+  		.success(function(data){
+  			if (data.status == 1){
+  				widgetCtrl.widgets.rainfall = data.rainfall;
+  				console.log(widgetCtrl.widgets.rainfall); // debug  	
+  			}			
+  		}).error(function(){
+  			console.log("fail rain!");
+  		});
+  		
+  	$http.get('http://hemul.fria.nu/ajaxhandler.php?directive=electionresults&properties=' + widgetCtrl.properties)
+  		.success(function(data){
+  			if (data.status == 1){
+  				widgetCtrl.widgets.electionresults = data.electionresults;
+  				console.log(widgetCtrl.widgets.electionresults); // debug  	
+  			}
+  		}).error(function(){
+  			console.log("fail elections!");
+  		});
+
   }]);
+  
+  function getProperties(){
+    var script_tag = $('script[type="text/javascript"]:contains("window.initMap")');
+	var match=/properties = (.*)/.exec(script_tag[0].text);
+	return match[1];
+  }
+  
 })();
