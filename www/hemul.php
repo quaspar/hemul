@@ -129,6 +129,24 @@ class hemul {
 		return $this::fixScbResponse($result, 3);
 	}
 
+	/* http://www.arbetsformedlingen.se/download/18.362b127c14924e08e87137a/1424696315134/tekniskbeskr_ledigajobb.pdf */
+	public function getJobs() {
+		$kommun = $this::scbGetKommun();
+		if (!$kommun) return NULL;
+		$url = "http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?kommunid=" . $kommun;
+		$opts = array(
+		'http'=>array(
+			'method'=>"GET",
+			'header'=>"Accept: application/json\r\n" .  
+				  "Accept-Language: sv\r\n" 
+		 ));
+		$context = stream_context_create($opts);
+		$data = json_decode(file_get_contents($url, false, $context), true);
+		unset($data['matchningslista']['matchningdata']);
+		return $data;
+	}
+
+
 /*
 ** private functions 
 */
