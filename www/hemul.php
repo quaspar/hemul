@@ -8,40 +8,50 @@ class hemul {
 		$this->adr = $adr;
 	}
 	
-	public function getRain() {
-		$this::smhiGetClosest();
-		$key = $this->smhiClosest['stationId'];
-		$url = "http://opendata-download-metobs.smhi.se/api/version/latest/parameter/5/station/$key.json";
-		return $url;		
+	/* http://opendata.smhi.se/apidocs/metobs/ */	
+	public function getRainfall() {
+		return $this::smhiArchive(5, 2, 3);
 	}
-	
-	public function kolada($kpis, $year = NULL, $debug = NULL) {
-		if (!$this::scbGetKommun()) return NULL;
-		$kpi = implode(',', array_values($kpis));
-		$trans = array_flip($kpis);
-		$url = "http://api.kolada.se/v2/data/kpi/$kpi/municipality/" . $this->kommunKod;
-		$url .= $year ? "/year/$year" : '';
+
+	public function getSnowdepth() {
+		return $this::smhiArchive(8, 0, 2);
+	}
+
+	public function getMiddletemperature() { 
+		return $this::smhiArchive(2, 2, 3);
+	}
+
+	public function getMaxtemperature() { 
+		return $this::smhiArchive(20, 2, 3);
+	}
+
+	public function getMintemperature() { 
+		return $this::smhiArchive(19, 2, 3);
+	}
+
+	/* https://github.com/Hypergene/kolada */	
+	public function getKolada() {
+		if (!$kommun = $this::scbGetKommun()) return NULL; /* kolada uses the same municipality codes as scb */
+		$kpi = implode(',', array_values($this->koladaData));
+		$trans = array_flip($this->koladaData);
+		$url = "http://api.kolada.se/v2/data/kpi/$kpi/municipality/" . $kommun;
+		$url .= isset($this->koladaYear) ? "/year/" . $this->koladaYear : '';
 		$data = json_decode(file_get_contents($url), true);
 		if (!$data) return NULL;
-		if ($debug) {
-			return $data;
-		}
-		else {
-			$array = array();
-			foreach($data['values'] as $elt) {
-				$array[$trans[$elt['kpi']]][$elt['period']] = $elt['values'][0];
-			}		
-			return $array;
-		}
-
+		$array = array();
+		foreach($data['values'] as $elt) {
+			$array[$trans[$elt['kpi']]][$elt['period']] = $elt['values'][0];
+		}		
+		return $array;
 	}
 	
-	public function getElectionResults() {
-		if (!$this::scbGetKommun()) return NULL;
+	/* http://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__ME__ME0104__ME0104C/ME0104T3/?rxid=9b9a346e-08c6-48c1-81ec-ee3ac6ec5eaa  */
+	public function getElectionresults() {
+		if (!$kommun = $this::scbGetKommun()) return NULL;
 		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/ME/ME0104/ME0104C/ME0104T3";
 		$data = array (
 			'query' => array (
-		    		0 => array ('code' => 'Region', 'selection' => array ('filter' => 'vs:RegionKommun07+BaraEjAggr', 'values' => array (0 => $this->kommunKod,),),),
+		    		0 => array ('code' => 'Region', 'selection' => array ('filter' => 'vs:RegionKommun07+BaraEjAggr', 'values' => array (0 => $kommun,),),),
 		    		1 => array ('code' => 'ContentsCode', 'selection' => array ('filter' => 'item', 'values' => array (0 => 'ME0104B7',),),),
 		    		2 => array ('code' => 'Tid', 'selection' => array ('filter' => 'item', 'values' => array (0 => '2014',),),),
 			),
@@ -53,12 +63,31 @@ class hemul {
 		return $this::fixScbResponse($result, 1);
 	}
 
+	/* http://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__MI__MI0603/Skyddadnatur/?rxid=850093b7-fe55-4247-be6d-ac214d16c806 */
+	public function getProtectednature() {
+		if (!$kommun = $this::scbGetKommun()) return NULL;
+		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/MI/MI0603/Skyddadnatur";
+		$data = array (
+			'query' => array (
+				0 => array('code' => 'Region', 'selection' => array('filter' => 'vs:RegionKommun07EjAggr', 'values' => array(0 => $kommun))),
+		    		1 => array ('code' => 'Tid', 'selection' => array ('filter' => 'item', 'values' => array (0 => '2013'))),
+			),
+			'response' => array ('format' => 'json'),
+  		);
+		$result = $this::postRequest($url, json_encode($data), true);
+		if (!$result) return NULL;
+		$result = json_decode($this::removeBom($result), true);
+		return $this::fixScbResponse($result, 1, array(0, 1, 3));
+
+	}
+
+	/* http://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__HE__HE0110__HE0110A/SamForvInk2/?rxid=9b9a346e-08c6-48c1-81ec-ee3ac6ec5eaa  */
 	public function getIncome() {
 		if (!$kommun = $this::scbGetKommun()) return NULL;
 		$url = "http://api.scb.se/OV0104/v1/doris/sv/ssd/START/HE/HE0110/HE0110A/SamForvInk2";
 		$data = array(
 			'query' => array(
-				0 => array('code' => 'Region', 'selection' => array('filter' => 'vs:RegionKommun07EjAggr', 'values' => array(0 => $this->kommunKod))),
+				0 => array('code' => 'Region', 'selection' => array('filter' => 'vs:RegionKommun07EjAggr', 'values' => array(0 => $kommun))),
 				1 => array('code' => 'Kon', 'selection' => array('filter' => 'item', 'values' => array(0  => '1+2'))),
 				2 => array('code' => 'Alder', 'selection' => array('filter' => 'item', 'values' => array(0 => 'tot16+'))),
 				3 => array('code' => 'Inkomstklass', 'selection' => array('filter' => 'item', 'values' => array(
@@ -100,30 +129,38 @@ class hemul {
 		return $this::fixScbResponse($result, 3);
 	}
 
+/*
+** private functions 
+*/
+
 	private function removeBOM($string) {
 		$bom = pack('H*','EFBBBF');
 		return preg_replace("/^$bom/", '', $string);
 	}
 
 	private function smhiGetClosest() {
-		if (isset($this->smhiClosest) && is_array($this->smhiClosest)) return;
 		/* http://fr.scribd.com/doc/2569355/Geo-Distance-Search-with-MySQL */
 		$query = "SELECT * , 3956 *2 * ASIN( SQRT( POWER( SIN( ( $this->lat - ABS( smhi.lat ) ) * PI( ) /180 /2 ) , 2 ) + COS( $this->lat * PI( ) /180 ) * COS( ABS( smhi.lat ) * PI( ) /180 ) * POWER( SIN( ( $this->lon - smhi.lon ) * PI( ) /180 /2 ) , 2 ) ) ) AS distance FROM smhi ORDER BY distance LIMIT 1";
-		$this->smhiClosest = $this->sql->query($query)->fetch_assoc();
+		return $this->sql->query($query)->fetch_assoc();
 	}
 
 	private function scbGetKommun() {
-		if (isset($this->kommunKod)) return $this->kommunKod;
 		$query = "select scbId from scb where kommun like '$this->adr'";
 		$res = $this->sql->query($query)->fetch_assoc();
-		$this->kommunKod = isset($res['scbId']) ? $res['scbId'] : NULL;
-		return $this->kommunKod;
+		return isset($res['scbId']) ? $res['scbId'] : NULL;
 	}
 
-	private function fixScbResponse($data, $keyIndex) {
+	private function fixScbResponse($data, $keyIndex, $contents = NULL) { /* contents motsvarar raden/raderna i "tabellinnehåll" på SCBs hemsida */
 		$array = array();
 		foreach ($data['data'] as $elt) {
-			$array[$elt['key'][$keyIndex]] = $elt['values'][0];
+			if ($contents) {
+				foreach ($contents as $content) {
+					$array[$elt['key'][$keyIndex]][$content] = $elt['values'][$content];
+				}
+			}
+			else {
+				$array[$elt['key'][$keyIndex]] = $elt['values'][0];
+			}
 		}
 		return $array;
 	}
@@ -142,5 +179,40 @@ class hemul {
 		$result = curl_exec($ch);
 		curl_close($ch);
 		return $result;
+	}
+
+	private function smhiArchive($parameter, $key = 0, $value = 1, $debug = false) {
+		$closest = $this::smhiGetClosest();
+		$station = $closest['stationId'];
+		$url = "http://opendata-download-metobs.smhi.se/api/version/latest/parameter/$parameter/station/$station/period/corrected-archive/data.csv";
+		$csv = file_get_contents($url);
+		if (!$csv) return NULL;
+		if ($debug) {
+			return $this::smhiCsvDebug($csv, $key, $value);
+		}
+		else {
+			return $this::smhiCsvHandler($csv, $key, $value);
+		}
+	}
+
+	private function smhiCsvHandler($csv, $key, $value) { /* $key och $values är kolumner från csv filen */
+		$lines = explode(PHP_EOL, $csv);
+		$data = array();
+		foreach ($lines as $line) {
+			$row = str_getcsv($line, ';');
+			if (preg_match('/^\d\d\d\d-\d\d-\d\d$/', $row[$key])) {
+				$data[$row[$key]] = $row[$value];
+			}
+		}
+		return array_slice($data, -366);
+	}
+
+	private function smhiCsvDebug($csv) {
+		$lines = explode(PHP_EOL, $csv);
+		$data = array();
+		foreach ($lines as $line) {
+			$data[] = str_getcsv($line, ';');
+		}
+		return $data;
 	}
 }
