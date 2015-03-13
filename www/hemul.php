@@ -8,11 +8,25 @@ class hemul {
 		$this->adr = $adr;
 	}
 	
-	public function getRain() {
-		$this::smhiGetClosest();
-		$key = $this->smhiClosest['stationId'];
-		$url = "http://opendata-download-metobs.smhi.se/api/version/latest/parameter/5/station/$key.json";
-		return $url;		
+	/* http://opendata.smhi.se/apidocs/metobs/ */	
+	public function getRainfall() {
+		return $this::smhiArchive(5, 2, 3);
+	}
+
+	public function getSnowdepth() {
+		return $this::smhiArchive(8, 0, 2);
+	}
+
+	public function getMiddletemperature() { 
+		return $this::smhiArchive(2, 2, 3);
+	}
+
+	public function getMaxtemperature() { 
+		return $this::smhiArchive(20, 2, 3);
+	}
+
+	public function getMintemperature() { 
+		return $this::smhiArchive(19, 2, 3);
 	}
 
 	/* https://github.com/Hypergene/kolada */	
@@ -115,6 +129,10 @@ class hemul {
 		return $this::fixScbResponse($result, 3);
 	}
 
+/*
+** private functions 
+*/
+
 	private function removeBOM($string) {
 		$bom = pack('H*','EFBBBF');
 		return preg_replace("/^$bom/", '', $string);
@@ -161,5 +179,40 @@ class hemul {
 		$result = curl_exec($ch);
 		curl_close($ch);
 		return $result;
+	}
+
+	private function smhiArchive($parameter, $key = 0, $value = 1, $debug = false) {
+		$closest = $this::smhiGetClosest();
+		$station = $closest['stationId'];
+		$url = "http://opendata-download-metobs.smhi.se/api/version/latest/parameter/$parameter/station/$station/period/corrected-archive/data.csv";
+		$csv = file_get_contents($url);
+		if (!$csv) return NULL;
+		if ($debug) {
+			return $this::smhiCsvDebug($csv, $key, $value);
+		}
+		else {
+			return $this::smhiCsvHandler($csv, $key, $value);
+		}
+	}
+
+	private function smhiCsvHandler($csv, $key, $value) { /* $key och $values är kolumner från csv filen */
+		$lines = explode(PHP_EOL, $csv);
+		$data = array();
+		foreach ($lines as $line) {
+			$row = str_getcsv($line, ';');
+			if (preg_match('/^\d\d\d\d-\d\d-\d\d$/', $row[$key])) {
+				$data[$row[$key]] = $row[$value];
+			}
+		}
+		return array_slice($data, -366);
+	}
+
+	private function smhiCsvDebug($csv) {
+		$lines = explode(PHP_EOL, $csv);
+		$data = array();
+		foreach ($lines as $line) {
+			$data[] = str_getcsv($line, ';');
+		}
+		return $data;
 	}
 }
