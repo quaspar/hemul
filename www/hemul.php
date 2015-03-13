@@ -200,7 +200,7 @@ class hemul {
 		$data = array();
 		foreach ($lines as $line) {
 			$row = str_getcsv($line, ';');
-			if (preg_match('/^\d\d\d\d-\d\d-\d\d$/', $row[$key])) {
+			if (isset($row[$key]) && preg_match('/^\d\d\d\d-\d\d-\d\d$/', $row[$key])) {
 				$data[$row[$key]] = $row[$value];
 			}
 		}
