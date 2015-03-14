@@ -265,12 +265,14 @@ class hemul {
 			if (isset($row[$key]) && preg_match('/^\d\d\d\d-\d\d-\d\d$/', $row[$key])) {
 				$date = $row[$key];
 				$year = substr($date,0,4);
-				$years[$year] = array();
+				if (!array_key_exists($year, $years)){
+					$years[$year] = array(0 => 0, 1 => 0);
+				}
 				if ($row[$value] == '0.0'){
-					$years[$year][0] ++;
+					$years[$year][0]++;
 				}
 				else {
-					$years[$year][1] ++;				
+					$years[$year][1]++;				
 				}
 				/*
 				array_push($data, array(
