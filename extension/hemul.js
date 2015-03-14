@@ -1,5 +1,4 @@
 (function() {
-// todo: http://learn.ionicframework.com/formulas/backend-data/
   var app = angular.module('Hemul', []);
   
   app.config(function($sceDelegateProvider) {
@@ -12,19 +11,40 @@
   ]);
 });
 
-  app.directive('hemulWidget', function() {
+/*  app.directive('hemulWidget', function($compile) {
     return {
         restrict: 'E',
         // templateUrl: chrome.extension.getURL('/widget.tpl'),
-        link: function($scope, element, attributes) {
-                console.log("link: ",attributes['$attr']);
-                element.html("<div>This is the new content</div>");
-              }
+        link: function (scope, ele, attrs) {
+        	// ele.html(WidgetCtrl.getMarkup(WidgetCtrl.widgets["rainfall"]));
+        	//ele.html("<div>"+"sdlfjsldkfjslkdjf"+"</div>");
+        	//$compile(ele.contents());
+        	console.log("scope", scope['widget']);
+   		}
        /* template: '<section class="hemul-widget">\
 					{{WidgetCtrl.getMarkup(widget.id)}}\
-				  </section>', */
+				  </section>', 
   	};
   });
+  */
+app.directive('hemulWidget', function($compile, $http){
+  return {
+    link: function(scope, element, attrs) {
+    	console.log("link function", attrs['$attr']);
+    	for (var property in attrs['$attr']) {
+    	console.log(property);
+   			if (attrs['$attr'].hasOwnProperty(property)) {
+        		$http.get('http://hemul.fria.nu/ajaxhandler.php?directive='+property+'&properties='+scope.properties).success(function (result) {
+        			console.log("RESULT",result);
+    				var markup = window["hemul_"+result.id](result);
+       				element.html($compile(markup)(scope));
+      			});	
+    		}
+		}
+    }
+  }
+})
+  
   
   app.controller('TabController', function(){
     this.tab = 0;
@@ -38,10 +58,12 @@
     };
   });
   
-  app.controller('WidgetController',['$http',function($http){
-	this.properties = getProperties();  	
+  app.controller('WidgetController',['$http', '$scope',function($http, $scope){
+	$scope.properties = getProperties();  	
+	console.log("CONTROLLER", $scope);
   	var widgetCtrl = this;
   	
+  	/*
   	this.getMarkup = function (wid){
   		return hemul_rainfall(widgetCtrl.widgets[wid]);
   	}
@@ -71,12 +93,13 @@
   		}
   	}
   	
+  	
   	this.widgets = {
   	  	rainfall: {},
   		electionresults: {}
   	};  	
   	this.loadWidget(["rainfall", "electionresults"]);
-
+*/
 
   }]);
   

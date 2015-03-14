@@ -9,12 +9,13 @@
           <li ng-class="{active:tabs.isSet(3)}">
             <a ng-click="tabs.setTab(3)" href>Samhälle</a></li>
         </ul>
-        <div ng-controller="WidgetController as WidgetCtrl">
+        <div ng-controller="WidgetController as widgetCtrl">
 	        <div ng-show="tabs.isSet(0)">
     	      <ul class="hemulwidgets">
-    	      	<li class="hemulwidget" ng-repeat="widget in WidgetCtrl.widgets">
-    	      		<div>{{WidgetCtrl.getMarkup(widget.id)}}</div>
-    	      	</li>
+    	      	<!-- <li class="hemulwidget" ng-repeat="widget in widgets"> -->
+    	      		<hemul-widget data-rainfall></hemul-widget>
+    	      		<hemul-widget data-electionresults></hemul-widget>
+    	      	<!-- </li> -->
         	  </ul>
 	        </div>
     	    <div ng-show="tabs.isSet(1)">
