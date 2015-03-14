@@ -43,34 +43,36 @@
   	var widgetCtrl = this;
   	
   	this.getMarkup = function (wid){
-  		console.log("Widget: ");
-  		console.log(wid);
   		return 'hej' + wid;
   	}
+  	  	
+  	this.loadWidget = function (widget){
+  		if (typeof widget !== 'undefined' && widget && widget.constructor === Array){
+
+  			for (var i = 0; i < widget.length; i++){
+  				widgetCtrl.loadWidget(widget[i]);
+ 			}
+  		}
+  		else {
+
+  			var url = 'http://hemul.fria.nu/ajaxhandler.php?directive='
+  				+ widget 
+  				+ '&properties=' + widgetCtrl.properties;
+	  		$http.get(url)
+  				.success(function(data){
+  				console.log("success");
+  				console.log(data);
+  					if (data.status == 1){
+  						widgetCtrl.widgets[data.id] = data;
+  					}			
+  				}).error(function(data){
+  					console.log("fail! " + data.id);
+  				});
+  		}
+  	}
   	
-  	$http.get('http://hemul.fria.nu/ajaxhandler.php?directive=rainfall&properties=' + widgetCtrl.properties)
-  		.success(function(data){
-  			if (data.status == 1){
-  				widgetCtrl.widgets.rainfall.data = data.rainfall;
-  				widgetCtrl.widgets.rainfall.id = "rainfall";
-  				widgetCtrl.widgets.rainfall.status = data.status;
-  				console.log(widgetCtrl.widgets.rainfall); // debug  	
-  			}			
-  		}).error(function(){
-  			console.log("fail rain!");
-  		});
-  		
-  	$http.get('http://hemul.fria.nu/ajaxhandler.php?directive=electionresults&properties=' + widgetCtrl.properties)
-  		.success(function(data){
-  			if (data.status == 1){
-  				widgetCtrl.widgets.electionresults.data = data.electionresults;
-  				widgetCtrl.widgets.electionresults.id = "electionresults";
-  				widgetCtrl.widgets.electionresults.status = data.status;
-  				console.log(widgetCtrl.widgets.electionresults); // debug  	
-  			}
-  		}).error(function(){
-  			console.log("fail elections!");
-  		});
+  	this.loadWidget(["rainfall", "electionresults"]);
+
 
   }]);
   

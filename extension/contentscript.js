@@ -39,14 +39,27 @@ function init_hemul(){
   $("#item-info>div.header").hide();
 }
 
+function init_hemul2() {
+	var hemulHtml = chrome.extension.getURL('/hemul.html');
+	var hemulDiv = '<div id="hemul" ng-app="Hemul" ng-include="\'' + hemulHtml + '\'"></div>';
+  	var hemulModal = '<div id="hemulModal" class="modal fade" role="dialog" aria-labelledby="mymodallabel" aria-hidden=true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button><h4 class="modal-title" id="myModalLabel">Hemul</h4></div><div class="modal-body">' + hemulDiv + '</div><div class="modal-footer">Credits</div></div></div></div></div>';
+	$('#page-container').append(hemulModal);
+	$("#item-actions").append("<a class='button' href='#' id='hemulPopup' style='margin-left: 8px;'><span><i class='fa fa-line-chart'> </i>Hemul");
+	$('#item-actions').on('click', '#hemulPopup', function() {
+		$('#hemulModal').modal('toggle');
+		return false;
+	});
+	
+}
 
+function hemulModal() {
 
+}
 
-
-// $( document ).ready(function() {
+//$( document ).ready(function() {
 	// send_props_to_server(handle_ajax_success);
-    init_hemul();
-// });
+    init_hemul2();
+//});
 
 
 
