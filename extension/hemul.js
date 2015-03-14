@@ -63,9 +63,7 @@
   				console.log("success");
   				console.log(data);
   					if (data.status == 1){
-  						widgetCtrl.widgets[data.id].data = data[data.id];
-  						widgetCtrl.widgets[data.id].id = [data.id];
-  						widgetCtrl.widgets[data.id].status = data.status;
+  						widgetCtrl.widgets[data.id] = data;
   					}			
   				}).error(function(data){
   					console.log("fail! " + data.id);
