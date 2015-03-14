@@ -164,7 +164,7 @@ class hemul {
 		return $this::requestVISS();	
 	}
 
-	public function getkommunfromcoordinates() {
+	public function getKommunfromcoordinates() {
 		$res = $this::requestVISS();
 		return array(
 			'MunicipalityCode' => $res['MunicipalityCode'],

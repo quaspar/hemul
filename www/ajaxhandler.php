@@ -21,16 +21,15 @@ if (!isset($coordinates[0]) || !isset($coordinates[1]) || !isset($adress)) {
 
 include 'hemul.php';
 $hemul = new hemul($coordinates[0], $coordinates[1], $adress);
-include 'kolada.php';
-$hemul->koladaData = $kolada;
-
+$kommunArray = $hemul->getKommunfromcoordinates();
+$kommun = isset($kommunArray['MunicipalityName']) ? $kommunArray['MunicipalityName'] : $adress;
 $directive = explode('_', $_REQUEST['directive']);
 
 $funcname = 'get' . ucfirst($directive[0]);
 $param = isset($directive[1]) ? $directive[1] : NULL;
 
 if (method_exists($hemul, $funcname)) {
-	json_response(array('status' => 1, 'id' => $_REQUEST['directive'], 'data' => $hemul->$funcname($param)));
+	json_response(array('status' => 1, 'id' => $_REQUEST['directive'], 'data' => $hemul->$funcname($param), 'municipality' => $kommun));
 }
 else {
 	json_response(array('status' => 0, 'msg' => 'unknown directive'));
