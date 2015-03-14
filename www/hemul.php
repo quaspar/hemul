@@ -5,7 +5,8 @@ class hemul {
 		$this->sql = getMySqlConnection();
 		$this->lat = $lat;
 		$this->lon = $lon;
-		$this->adr = $adr;
+		$loc = $this::getKommunfromcoordinates();
+		$this->adr = isset($loc['MunicipalityName']) ? $loc['MunicipalityName'] : $adr;
 		$this->viss = '826f42a326945049d0309a48a01b1a68';
 	}
 	
