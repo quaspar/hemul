@@ -105,7 +105,7 @@ class hemul {
 		$data = array(
 			'query' => array(
 				0 => array('code' => 'Region', 'selection' => array('filter' => 'vs:RegionKommun07EjAggr', 'values' => array(0 => $kommun))),
-				1 => array('code' => 'Kon', 'selection' => array('filter' => 'item', 'values' => array(0  => '1+2'))),
+				1 => array('code' => 'Kon', 'selection' => array('filter' => 'item', 'values' => array(0  => '1', 1 => '2'))),
 				2 => array('code' => 'Alder', 'selection' => array('filter' => 'item', 'values' => array(0 => 'tot16+'))),
 				3 => array('code' => 'Inkomstklass', 'selection' => array('filter' => 'item', 'values' => array(
 					0 => "TOT",
@@ -143,7 +143,11 @@ class hemul {
 		$result = $this::postRequest($url, json_encode($data), true);
 		if (!$result) return NULL;
 		$result = json_decode($this::removeBom($result), true);
-		return $this::fixScbResponse($result, 3);
+		$array = array();
+		foreach($result['data'] as $elt) {
+			$array[$elt['key'][3]][$elt['key'][1]] = $elt['values'][0];
+		}
+		return $array;
 	}
 
 	/* http://www.arbetsformedlingen.se/download/18.362b127c14924e08e87137a/1424696315134/tekniskbeskr_ledigajobb.pdf */
