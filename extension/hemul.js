@@ -15,16 +15,10 @@
   app.directive('hemulWidget', function() {
     return {
         restrict: 'E',
-        templateUrl: chrome.extension.getURL('/widget.tpl'),
-        replace: true /* ,
-		link: function (scope, element, attrs) {
-      		var attr;
-      		for (attr in attrs.$attr) {
-        		if(attrs.hasOwnProperty(attr)){
-          			element.attr(attr, attrs[attr]);
-        		}
-      		}
-    	} */
+        // templateUrl: chrome.extension.getURL('/widget.tpl'),
+        template: '<section class="hemul-widget">\
+					{{WidgetCtrl.getMarkup(widget.id)}}\
+				  </section>', 
   	};
   });
   
@@ -48,11 +42,17 @@
   	};
   	var widgetCtrl = this;
   	
+  	this.getMarkup = function (wid){
+  		console.log("Widget: ");
+  		console.log(wid);
+  		return 'hej' + wid;
+  	}
+  	
   	$http.get('http://hemul.fria.nu/ajaxhandler.php?directive=rainfall&properties=' + widgetCtrl.properties)
   		.success(function(data){
   			if (data.status == 1){
   				widgetCtrl.widgets.rainfall.data = data.rainfall;
-  				widgetCtrl.widgets.rainfall.name = "rainfall";
+  				widgetCtrl.widgets.rainfall.id = "rainfall";
   				widgetCtrl.widgets.rainfall.status = data.status;
   				console.log(widgetCtrl.widgets.rainfall); // debug  	
   			}			
@@ -64,7 +64,7 @@
   		.success(function(data){
   			if (data.status == 1){
   				widgetCtrl.widgets.electionresults.data = data.electionresults;
-  				widgetCtrl.widgets.electionresults.name = "electionresults";
+  				widgetCtrl.widgets.electionresults.id = "electionresults";
   				widgetCtrl.widgets.electionresults.status = data.status;
   				console.log(widgetCtrl.widgets.electionresults); // debug  	
   			}
