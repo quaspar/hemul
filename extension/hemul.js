@@ -16,9 +16,13 @@
     return {
         restrict: 'E',
         // templateUrl: chrome.extension.getURL('/widget.tpl'),
-        template: '<section class="hemul-widget">\
+        link: function($scope, element, attributes) {
+                console.log("link: ",attributes['$attr']);
+                element.html("<div>This is the new content</div>");
+              }
+       /* template: '<section class="hemul-widget">\
 					{{WidgetCtrl.getMarkup(widget.id)}}\
-				  </section>', 
+				  </section>', */
   	};
   });
   
@@ -36,14 +40,10 @@
   
   app.controller('WidgetController',['$http',function($http){
 	this.properties = getProperties();  	
-  	this.widgets = {
-  	  	rainfall: {},
-  		electionresults: {}
-  	};
   	var widgetCtrl = this;
   	
   	this.getMarkup = function (wid){
-  		return 'hej' + wid;
+  		return hemul_rainfall(widgetCtrl.widgets[wid]);
   	}
   	  	
   	this.loadWidget = function (widget){
@@ -71,6 +71,10 @@
   		}
   	}
   	
+  	this.widgets = {
+  	  	rainfall: {},
+  		electionresults: {}
+  	};  	
   	this.loadWidget(["rainfall", "electionresults"]);
 
 
