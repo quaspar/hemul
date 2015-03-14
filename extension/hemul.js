@@ -39,7 +39,9 @@ app.directive('hemulWidget', function($compile, $http){
     				var rendered = window["hemul_"+result.id](result);
     				var markup = '<div>' + rendered.markup + '</div>';
        				element.html($compile(markup)(scope));
-       				rendered.callback(result);
+       				if (typeof rendered.callback !== 'undefined' && rendered.callback){
+       					window[rendered.callback](result);
+       				}
       			});	
     		}
 		}

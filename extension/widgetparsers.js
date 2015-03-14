@@ -8,7 +8,6 @@ function hemul_electionresults(widget){
 }
 
 function electionresultsCallback(data) {
-	var data = data.data;
 	var dataArray = objToArray(data.data);
 
 	function objToArray(obj) {
