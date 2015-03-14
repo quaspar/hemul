@@ -26,7 +26,7 @@ $hemul->koladaData = $kolada;
 
 $funcname = 'get' . ucfirst($_REQUEST['directive']);
 if (method_exists($hemul, $funcname)) {
-	json_response(array('status' => 1, 'id' => $_REQUEST['directive'],  $_REQUEST['directive'] => $hemul->$funcname()));
+	json_response(array('status' => 1, 'id' => $_REQUEST['directive'], 'data' => $hemul->$funcname()));
 }
 else {
 	json_response(array('status' => 0, 'msg' => 'unknown directive'));
