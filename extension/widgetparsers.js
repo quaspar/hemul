@@ -14,9 +14,6 @@ function hemul_electionresults(widget){
 function incomeCallback(data) {
 	
 	var series = fixMyData(data.data);
-console.log(series.men);
-console.log(series.women);
-console.log(series.categories);
 
 	function fixMyData(obj) {
 	    var men = [];
@@ -31,21 +28,6 @@ console.log(series.categories);
 	       }
 	    }
     	return {categories: categories, men: men, women: women};
-    }
-
-	function fixMyData2(obj, sex) {
-	    var result = [];
-	    for (var key in obj) {
-	       if (obj.hasOwnProperty(key) && key !=='TOT') {
-			   var value=obj[key];
-			   var income=key.split('-');
-			console.log(income[0] + ' : ' + income[1]);
-			   var incomeMedel=income[1] ? (parseInt(income[0])+parseInt(income[1]))/2 : income[0];
-			console.log(incomeMedel);
-	           result.push([parseFloat(value[sex]), 1000*parseFloat(incomeMedel)]);
-	       }
-	    }
-    	return result;
     }
 
 	Highcharts.setOptions({
