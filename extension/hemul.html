@@ -1,11 +1,11 @@
   		<section class="tab" ng-controller="TabController as tabs">
         <ul class="nav nav-pills">
           <li ng-class="{active:tabs.isSet(0)}">
-            <a ng-click="tabs.setTab(0)" href>Översikt</a></li>
+            <a ng-click="tabs.setTab(0)" href>Valresultat</a></li>
           <li ng-class="{active:tabs.isSet(1)}">
             <a ng-click="tabs.setTab(1)" href>Miljö</a></li>
           <li ng-class="{active:tabs.isSet(2)}">
-            <a ng-click="tabs.setTab(2)" href>Människor</a></li>
+            <a ng-click="tabs.setTab(2)" href>Inkomst</a></li>
           <li ng-class="{active:tabs.isSet(3)}">
             <a ng-click="tabs.setTab(3)" href>Samhälle</a></li>
         </ul>
@@ -22,8 +22,7 @@
     	      	<hemul-widget data-rainfall></hemul-widget>
     	    </div>
         	<div ng-show="tabs.isSet(2)">
-        	  <h4>Människor</h4>
-	          <blockquote>test människor</blockquote>
+			<hemul-widget data-income></hemul-widget>
     	    </div>
         	<div ng-show="tabs.isSet(3)">
         	  <h4>Samhälle</h4>
