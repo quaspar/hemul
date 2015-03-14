@@ -37,6 +37,7 @@ app.directive('hemulWidget', function($compile, $http){
         		$http.get('http://hemul.fria.nu/ajaxhandler.php?directive='+property+'&properties='+scope.properties).success(function (result) {
         			console.log("RESULT",result);
     				var markup = window["hemul_"+result.id](result);
+    				markup = '<div>' + markup + '</div>';
        				element.html($compile(markup)(scope));
       			});	
     		}
