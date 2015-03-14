@@ -252,7 +252,9 @@ class hemul {
 			return $this::smhiCsvDebug($csv, $key, $value);
 		}
 		else {
-			return array_merge(array('station' => $closest['ort']), $this::smhiCsvHandler($csv, $key, $value));
+			$ret = $this::smhiCsvHandler($csv, $key, $value);
+			$ret['station'] = $closest['ort'];
+			return $ret;
 		}
 	}
 
