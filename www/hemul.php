@@ -6,6 +6,7 @@ class hemul {
 		$this->lat = $lat;
 		$this->lon = $lon;
 		$this->adr = $adr;
+		$this->viss = '826f42a326945049d0309a48a01b1a68';
 	}
 	
 	/* http://opendata.smhi.se/apidocs/metobs/ */	
@@ -146,6 +147,19 @@ class hemul {
 		return $data;
 	}
 
+	/* http://viss.lansstyrelsen.se/api  */
+	public function getWaterinformation() {
+		return $this::requestVISS();	
+	}
+
+	public function getkommunfromcoordinates() {
+		$res = $this::requestVISS();
+		return array(
+			'MunicipalityCode' => $res['MunicipalityCode'],
+			'MunicipalityName' => $res['MunicipalityName'],
+		);
+	}
+
 
 /*
 ** private functions 
@@ -154,6 +168,13 @@ class hemul {
 	private function removeBOM($string) {
 		$bom = pack('H*','EFBBBF');
 		return preg_replace("/^$bom/", '', $string);
+	}
+
+	private function requestVISS() {
+		$url = "http://viss.lansstyrelsen.se/api?method=coordinateinfo&apikey=" . $this->viss . "&format=json&x=" . $this->lat . "&y=" . $this->lon . "&coordinateformat=WGS84";
+		$result = file_get_contents($url);
+		return json_decode($result, true);
+
 	}
 
 	private function smhiGetClosest() {
