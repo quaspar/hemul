@@ -1,5 +1,5 @@
 function hemul_rainfall(widget){
-	return {markup: '<div id="electionsContainer">REGN</div>'};
+	return {markup: '<div id="rainContainer">REGN</div>'};
 }
 
 function hemul_electionresults(widget){
@@ -29,10 +29,11 @@ function electionresultsCallback(data) {
 	        chart: {
 	            plotBackgroundColor: null,
 	            plotBorderWidth: null,
-	            plotShadow: false
+	            plotShadow: false,
+	            width: 570
 	        },
 	        title: {
-	            text: 'Så röstade kommunen i riksdagsvalet 2014'
+	            text: 'Så röstade ' + data.municipality + ' i riksdagsvalet 2014'
 	        },
 	        tooltip: {
 	            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

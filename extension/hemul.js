@@ -11,22 +11,6 @@
   ]);
 });
 
-/*  app.directive('hemulWidget', function($compile) {
-    return {
-        restrict: 'E',
-        // templateUrl: chrome.extension.getURL('/widget.tpl'),
-        link: function (scope, ele, attrs) {
-        	// ele.html(WidgetCtrl.getMarkup(WidgetCtrl.widgets["rainfall"]));
-        	//ele.html("<div>"+"sdlfjsldkfjslkdjf"+"</div>");
-        	//$compile(ele.contents());
-        	console.log("scope", scope['widget']);
-   		}
-       /* template: '<section class="hemul-widget">\
-					{{WidgetCtrl.getMarkup(widget.id)}}\
-				  </section>', 
-  	};
-  });
-  */
 app.directive('hemulWidget', function($compile, $http){
   return {
     link: function(scope, element, attrs) {
@@ -65,47 +49,7 @@ app.directive('hemulWidget', function($compile, $http){
   
   app.controller('WidgetController',['$http', '$scope',function($http, $scope){
 	$scope.properties = getProperties();  	
-	console.log("CONTROLLER", $scope);
   	var widgetCtrl = this;
-  	
-  	/*
-  	this.getMarkup = function (wid){
-  		return hemul_rainfall(widgetCtrl.widgets[wid]);
-  	}
-  	  	
-  	this.loadWidget = function (widget){
-  		if (typeof widget !== 'undefined' && widget && widget.constructor === Array){
-
-  			for (var i = 0; i < widget.length; i++){
-  				widgetCtrl.loadWidget(widget[i]);
- 			}
-  		}
-  		else {
-
-  			var url = 'http://hemul.fria.nu/ajaxhandler.php?directive='
-  				+ widget 
-  				+ '&properties=' + widgetCtrl.properties;
-	  		$http.get(url)
-  				.success(function(data){
-  				console.log("success");
-  				console.log(data);
-  					if (data.status == 1){
-  						widgetCtrl.widgets[data.id] = data;
-  					}			
-  				}).error(function(data){
-  					console.log("fail! " + data.id);
-  				});
-  		}
-  	}
-  	
-  	
-  	this.widgets = {
-  	  	rainfall: {},
-  		electionresults: {}
-  	};  	
-  	this.loadWidget(["rainfall", "electionresults"]);
-*/
-
   }]);
   
   function getProperties(){
