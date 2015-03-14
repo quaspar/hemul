@@ -1,7 +1,6 @@
 function hemul_rainfall(widget){
-	var regnfriaDagar = widget.data.observations.length - widget.data.rainydays;
 	return {markup: '<div id="rainContainer"><div>Antal regndagar: ' + widget.data.rainydays + '</div>\
-	<div>Antal regnfria dagar: ' + regnfriaDagar + '</div>\
+	<div>Antal regnfria dagar: ' + widget.data.noraindays + '</div>\
 	</div>'};
 }
 

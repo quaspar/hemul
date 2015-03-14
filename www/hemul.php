@@ -13,10 +13,13 @@ class hemul {
 	public function getRainfall() {
 		$regn = 5;
 		$data = $this::smhiArchive($regn, 2, 3);
+		/*		
 		$valueFreq = array_count_values($data);
 		$regnfriadagar = $valueFreq['0.0'];
 		$regndagar = count($data) - $regnfriadagar;
-		return array('observations' => $data, 'rainydays' => $regndagar, 'noraindays' => $regnfriadagar);
+		*/
+		// return array('observations' => $data, 'rainydays' => $regndagar, 'noraindays' => $regnfriadagar);
+		return $data;
 	}
 
 	public function getSnowdepth() {
@@ -258,13 +261,30 @@ class hemul {
 	private function smhiCsvHandler($csv, $key, $value) { /* $key och $values är kolumner från csv filen */
 		$lines = explode(PHP_EOL, $csv);
 		$data = array();
+		$years = array();
 		foreach ($lines as $line) {
 			$row = str_getcsv($line, ';');
 			if (isset($row[$key]) && preg_match('/^\d\d\d\d-\d\d-\d\d$/', $row[$key])) {
-				$data[$row[$key]] = $row[$value];
+				$date = $row[$key];
+				$year = substr($date,0,4);
+				$years[$year] = array();
+				if ($row[$value] == '0.0'){
+					$years[$year][0] ++;
+				}
+				else {
+					$years[$year][1] ++;				
+				}
+				/*
+				array_push($data, array(
+					'year' => $year,
+					'month' => substr($date,5,2),
+					'day' => substr($date,8,2),
+					'value' => $row[$value]
+				));
+				*/
 			}
 		}
-		return array_slice($data, -366);
+		return $years;
 	}
 
 	private function smhiCsvDebug($csv) {
@@ -275,6 +295,7 @@ class hemul {
 		}
 		return $data;
 	}
+
 
 	private function getLan() {
 		$kommun = $this::scbGetKommun();
