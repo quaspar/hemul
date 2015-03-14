@@ -1,9 +1,9 @@
 function hemul_rainfall(widget){
-	return widget.id;
+	return {markup: '<div id="electionsContainer">REGN</div>'};
 }
 
 function hemul_electionresults(widget){
-	var obj={"markup": '<div id="electionsContainer"></div>', "callback": "electionresultsCallback"};
+	var obj={markup: '<div id="electionsContainer"></div>', callback: "electionresultsCallback"};
 	return obj;
 }
 
@@ -25,7 +25,7 @@ function electionresultsCallback(data) {
 		colors: ['#b02522', '#c13b38', '#acc768', '#e7d960', '#78ae5a', '#378cab', '#366da3', '#88c7d9', '#c0c0c0']
 	});
 
-	$('#container').highcharts({
+	$('#electionsContainer').highcharts({
 	        chart: {
 	            plotBackgroundColor: null,
 	            plotBorderWidth: null,
