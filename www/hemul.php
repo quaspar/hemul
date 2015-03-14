@@ -42,15 +42,13 @@ class hemul {
 	public function getKolada($kpi) {
 		if ($kpi === NULL) return;
 		if (!$kommun = $this::scbGetKommun()) return NULL; /* kolada uses the same municipality codes as scb */
-		/*$kpi = implode(',', array_values($this->koladaData));*/
-		$trans = array_flip($this->koladaData);
 		$url = "http://api.kolada.se/v2/data/kpi/$kpi/municipality/" . $kommun;
 		$url .= isset($this->koladaYear) ? "/year/" . $this->koladaYear : '';
 		$data = json_decode(file_get_contents($url), true);
 		if (!$data) return NULL;
 		$array = array();
 		foreach($data['values'] as $elt) {
-			$array[$trans[$elt['kpi']]][$elt['period']] = $elt['values'][0];
+			$array[$kpi][$elt['period']] = $elt['values'][0];
 		}		
 		return $array;
 	}
