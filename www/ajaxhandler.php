@@ -24,9 +24,13 @@ $hemul = new hemul($coordinates[0], $coordinates[1], $adress);
 include 'kolada.php';
 $hemul->koladaData = $kolada;
 
-$funcname = 'get' . ucfirst($_REQUEST['directive']);
+$directive = explode('_', $_REQUEST['directive']);
+
+$funcname = 'get' . ucfirst($directive[0]);
+$param = isset($directive[1]) ? $directive[1] : NULL;
+
 if (method_exists($hemul, $funcname)) {
-	json_response(array('status' => 1, 'id' => $_REQUEST['directive'], 'data' => $hemul->$funcname()));
+	json_response(array('status' => 1, 'id' => $_REQUEST['directive'], 'data' => $hemul->$funcname($param)));
 }
 else {
 	json_response(array('status' => 0, 'msg' => 'unknown directive'));

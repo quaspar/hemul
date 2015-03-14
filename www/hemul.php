@@ -31,9 +31,10 @@ class hemul {
 	}
 
 	/* https://github.com/Hypergene/kolada */	
-	public function getKolada() {
+	public function getKolada($kpi) {
+		if ($kpi === NULL) return;
 		if (!$kommun = $this::scbGetKommun()) return NULL; /* kolada uses the same municipality codes as scb */
-		$kpi = implode(',', array_values($this->koladaData));
+		/*$kpi = implode(',', array_values($this->koladaData));*/
 		$trans = array_flip($this->koladaData);
 		$url = "http://api.kolada.se/v2/data/kpi/$kpi/municipality/" . $kommun;
 		$url .= isset($this->koladaYear) ? "/year/" . $this->koladaYear : '';
