@@ -1,0 +1,1 @@
+<p>cbtest: {{widget.name}}</p>

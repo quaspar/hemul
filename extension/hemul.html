@@ -13,7 +13,7 @@
 	        <div ng-show="tabs.isSet(0)">
     	      <ul class="hemulwidgets">
     	      	<li class="hemulwidget" ng-repeat="widget in WidgetCtrl.widgets">
-    	      		<h3>{{widget.status}}</h3>
+    	      		<hemul-widget data-widget-name="{{widget.name}}"></hemul-widget>
     	      	</li>
         	  </ul>
 	        </div>
