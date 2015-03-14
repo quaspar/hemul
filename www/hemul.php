@@ -131,7 +131,7 @@ class hemul {
           				24 => "600-799",
           				25 => "800-999",
           				26 => "1000+"))),
-				4 => array('code' => 'ContentsCode', 'selection' => array('filter' => 'item', 'values' => array(0 => 'HE0110K1'))),
+				4 => array('code' => 'ContentsCode', 'selection' => array('filter' => 'item', 'values' => array(0 => 'HE0110K3'))),
 				5 => array('code' => 'Tid', 'selection' => array('filter' => 'item', 'values' => array(0 => '2013')))
 			),
 			'response' => array('format' => 'json')
