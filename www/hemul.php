@@ -48,7 +48,7 @@ class hemul {
 		if (!$data) return NULL;
 		$array = array();
 		foreach($data['values'] as $elt) {
-			$array[$kpi][$elt['period']] = $elt['values'][0];
+			$array[$elt['kpi']][$elt['period']] = $elt['values'][0];
 		}		
 		return $array;
 	}
