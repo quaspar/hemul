@@ -16,17 +16,18 @@
   
   app.controller('WidgetController',['$http',function($http){
 	this.properties = getProperties();  	
-  	var widgetCtrl = this;
-
   	this.widgets = {
   	  	rainfall: {},
   		electionresults: {}
   	};
+  	var widgetCtrl = this;
   	
   	$http.get('http://hemul.fria.nu/ajaxhandler.php?directive=rainfall&properties=' + widgetCtrl.properties)
   		.success(function(data){
   			if (data.status == 1){
+  				console.log(data);
   				widgetCtrl.widgets.rainfall = data.rainfall;
+  				widgetCtrl.widgets.rainfall.status = data.status;
   				console.log(widgetCtrl.widgets.rainfall); // debug  	
   			}			
   		}).error(function(){
@@ -37,6 +38,7 @@
   		.success(function(data){
   			if (data.status == 1){
   				widgetCtrl.widgets.electionresults = data.electionresults;
+  				widgetCtrl.widgets.electionresults.status = data.status;
   				console.log(widgetCtrl.widgets.electionresults); // debug  	
   			}
   		}).error(function(){
