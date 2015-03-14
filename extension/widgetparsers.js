@@ -1,7 +1,5 @@
 function hemul_rainfall(widget){
-	return {markup: '<div id="rainContainer"><div>Antal regndagar: ' + widget.data.rainydays + '</div>\
-	<div>Antal regnfria dagar: ' + widget.data.noraindays + '</div>\
-	</div>'};
+	return {markup: '<div id="rainfallContainer"><div>', callback: 'rainfallCallback'};
 }
 
 function hemul_income(widget) {
@@ -11,6 +9,79 @@ function hemul_income(widget) {
 function hemul_electionresults(widget){
 	var obj={markup: '<div id="electionsContainer"></div>', callback: "electionresultsCallback"};
 	return obj;
+}
+
+function rainfallCallback(data){
+	console.log("årsnederbörd", data.data);
+	
+	
+	
+	var station = data.data.station;
+	delete data.data.station;
+	var dataArray = [];
+	var labelArray = [];
+    for (var key in data.data) {
+       if (data.data.hasOwnProperty(key)) {
+       	   labelArray.push(key);
+       	   var total = parseInt(data.data[key][1]) + parseInt(data.data[key][0]);
+       	   if (total > 150) {
+           		dataArray.push(parseInt(100 * parseInt(data.data[key][1]) / total));
+           }
+           else {
+           	dataArray.push(null);
+           }
+       }
+    }
+
+    
+
+    $('#rainfallContainer').highcharts({
+        chart: {
+            type: 'spline',
+			width: 570
+        },
+        title: {
+            text: 'Andel dagar med nederbörd'
+        },
+        subtitle: {
+            text: 'Station: ' + station
+        }, 
+        xAxis: {
+            categories: labelArray
+        },
+        yAxis: {
+            title: {
+                text: 'Andel dagar med nederbörd'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value + '%';
+                }
+            }
+        },
+        tooltip: {
+            crosshairs: true,
+            shared: true
+        },
+        plotOptions: {
+            spline: {
+                marker: {
+                    radius: 4,
+                    lineColor: '#666666',
+                    lineWidth: 1
+                }
+            }
+        },
+        series: [{
+        	name: 'Station ' + station + ' (' + data.municipality + ')',
+        	color: '#0000FF',
+            marker: {
+                symbol: 'diamond'
+            },
+            data: dataArray
+
+        }]
+    });
 }
 
 function incomeCallback(data) {
@@ -72,19 +143,18 @@ function incomeCallback(data) {
 	 });	
 }
 
+function objToArray(obj) {
+    var result = [];
+    for (var key in obj) {
+       if (obj.hasOwnProperty(key) && $.isNumeric(obj[key])) {
+           result.push([key,parseFloat(obj[key])]);
+       }
+    }
+   	return result;
+}
+
 function electionresultsCallback(data) {
 	var dataArray = objToArray(data.data);
-
-	function objToArray(obj) {
-	    var result = [];
-	    for (var key in obj) {
-	       if (obj.hasOwnProperty(key) && $.isNumeric(obj[key])) {
-	           result.push([key,parseFloat(obj[key])]);
-	       }
-	    }
-    	    return result;
-	}
-
 
 	Highcharts.setOptions({
 		colors: ['#b02522', '#c13b38', '#acc768', '#e7d960', '#78ae5a', '#378cab', '#366da3', '#88c7d9', '#c0c0c0']
