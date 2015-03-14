@@ -1,5 +1,8 @@
 function hemul_rainfall(widget){
-	return {markup: '<div id="rainContainer">REGN</div>'};
+	var regnfriaDagar = widget.data.observations.length - widget.data.rainydays;
+	return {markup: '<div id="rainContainer"><div>Antal regndagar: ' + widget.data.rainydays + '</div>\
+	<div>Antal regnfria dagar: ' + regnfriaDagar + '</div>\
+	</div>'};
 }
 
 function hemul_income(widget) {
