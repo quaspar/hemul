@@ -62,7 +62,18 @@ class hemul {
 		$result = $this::postRequest($url, json_encode($data), true);
 		if (!$result) return NULL;
 		$result = json_decode($this::removeBom($result), true);
-		return $this::fixScbResponse($result, 1);
+		$result = $this::fixScbResponse($result, 1);
+		return array(
+			'V' => $result['V'],
+			'S' => $result['S'],
+			'MP' => $result['MP'],
+			'SD' => $result['SD'],
+			'C' => $result['C'],
+			'FP' => $result['FP'],
+			'KD' => $result['KD'],
+			'M' => $result['M'],
+			'Övriga' => $result['ÖVRIGA'], 
+		);
 	}
 
 	/* http://www.statistikdatabasen.scb.se/pxweb/sv/ssd/START__MI__MI0603/Skyddadnatur/?rxid=850093b7-fe55-4247-be6d-ac214d16c806 */
