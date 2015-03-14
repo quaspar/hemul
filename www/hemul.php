@@ -11,8 +11,8 @@ class hemul {
 	
 	/* http://opendata.smhi.se/apidocs/metobs/ */	
 	public function getRainfall() {
-		regn = 5;
-		$data = $this::smhiArchive(regn, 2, 3);
+		$regn = 5;
+		$data = $this::smhiArchive($regn, 2, 3);
 		$valueFreq = array_count_values($data);
 		$regndagar = count($data) - $valueFreq['0.0'];
 		return array('observations' => $data, 'rainydays' => $regndagar);
