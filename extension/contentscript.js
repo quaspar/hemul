@@ -34,11 +34,7 @@ function init_hemul(){
   });  
   $("#item-gallery div." + classOfLastSlide).removeClass(classOfLastSlide).addClass("item-" + newNumber);
   var hemulHtml = chrome.extension.getURL('/hemul.html');
-  var hemuldiv = 
-  '<div id="hemul" class="gallery-item item-1" ng-app="Hemul">\
-  		<section class="tab" ng-controller="TabController as tabs" ng-include="\'' + hemulHtml + '\'">\
-  		</section>\
-  </div>';
+  var hemuldiv = '<div id="hemul" class="gallery-item item-1" ng-app="Hemul" ng-include="\'' + hemulHtml + '\'"></div>';
   $("#item-gallery div.item-0").not(".cloned").after(hemuldiv);
   $("#item-info>div.header").hide();
 }
