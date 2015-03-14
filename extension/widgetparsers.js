@@ -32,7 +32,7 @@ function electionresultsCallback(data) {
 	            plotShadow: false
 	        },
 	        title: {
-	            text: 'valresultatet riksdagsval, 2014'
+	            text: 'Så röstade kommunen i riksdagsvalet 2014'
 	        },
 	        tooltip: {
 	            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
