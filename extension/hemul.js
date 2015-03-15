@@ -14,12 +14,10 @@
 app.directive('hemulWidget', function($compile, $http){
   return {
     link: function(scope, element, attrs) {
-    	console.log("link function", attrs['$attr']);
     	for (var property in attrs['$attr']) {
-    	console.log(property);
    			if (attrs['$attr'].hasOwnProperty(property)) {
         		$http.get('http://hemul.fria.nu/ajaxhandler.php?directive='+property+'&properties='+scope.properties).success(function (result) {
-        			console.log("RESULT",result);
+        			console.log(property,result);
     				var rendered = window["hemul_"+result.id](result);
     				console.log(rendered);
     				var markup = '<div>' + rendered.markup + '</div>';
@@ -47,9 +45,21 @@ app.directive('hemulWidget', function($compile, $http){
     };
   });
   
-  app.controller('WidgetController',['$http', '$scope',function($http, $scope){
+  app.controller('WidgetController',['$http', '$scope', '$window',function($http, $scope, $window){
 	$scope.properties = getProperties();  	
   	var widgetCtrl = this;
+  	
+    $scope.supportsGeo = $window.navigator;
+    $scope.position = null;
+    window.navigator.geolocation.getCurrentPosition(function(position) {
+            $scope.$apply(function() {
+                $scope.position = position;
+                console.log("$scope.position", $scope.position);
+            });
+        }, function(error) {
+            console.log("geolocation error", error);
+        });
+  	
   }]);
   
   function getProperties(){

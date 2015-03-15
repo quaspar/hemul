@@ -3,11 +3,11 @@
           <li ng-class="{active:tabs.isSet(0)}">
             <a ng-click="tabs.setTab(0)" href>Valresultat</a></li>
           <li ng-class="{active:tabs.isSet(1)}">
-            <a ng-click="tabs.setTab(1)" href>Miljö</a></li>
+            <a ng-click="tabs.setTab(1)" href>Väder</a></li>
           <li ng-class="{active:tabs.isSet(2)}">
             <a ng-click="tabs.setTab(2)" href>Inkomst</a></li>
           <li ng-class="{active:tabs.isSet(3)}">
-            <a ng-click="tabs.setTab(3)" href>Samhälle</a></li>
+            <a ng-click="tabs.setTab(3)" href>Stämning</a></li>
         </ul>
         <div ng-controller="WidgetController as widgetCtrl">
 	        <div ng-show="tabs.isSet(0)">
@@ -18,15 +18,13 @@
         	  </div>
 	        </div>
     	    <div ng-show="tabs.isSet(1)">
-        	  <h4>Miljö:</h4>
     	      	<hemul-widget data-rainfall></hemul-widget>
     	    </div>
         	<div ng-show="tabs.isSet(2)">
-			<hemul-widget data-income></hemul-widget>
+				<hemul-widget data-income></hemul-widget>
     	    </div>
         	<div ng-show="tabs.isSet(3)">
-        	  <h4>Samhälle</h4>
-        	  <blockquote>test samhälle</blockquote>
+				<hemul-widget data-kolada-u00402></hemul-widget>
        		</div>
        	</div>
   		</section>
