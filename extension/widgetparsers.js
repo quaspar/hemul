@@ -32,19 +32,12 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 	return {markup: '<div id="koladaContainer"></div><div style="text-align: center;"><cite>Läs mer om <a href="http://www.scb.se/sv_/Vara-tjanster/Insamling-och-undersokning/Medborgarundersokningen/Resultat-2014">Medborgarundersökningen</a> hos SCB</cite></div>', callback: 'koladaCallback'};
 }
 
-<<<<<<< HEAD
 function hemul_jobs(widget) {
 	var myTable = '<table style="margin-top: 8px;" class="table table-stripped table-bordered">';
 	$.each(widget.data.matchningslista, function(key, value) {
 		if (key !== 'antal_sidor') {
 			myTable += '<tr><td>' + key + '</td><td>' + value + '</td></tr>';
 		}
-=======
-function hemul_koladaU11401u11402u11415u11419u15502(widget) {
-	var arrayData = koladaGetLatestYear(widget);
-	var myTable = '<table class="table table-stripped table-bordered">';
-	$.each(widget.data, function(key, value) {
->>>>>>> 3456f9e258c5121b21eae60166e94127a6e25c12
 	});
 	myTable += '</table>';
 	return {markup: myTable};
@@ -136,10 +129,6 @@ function koladaCallback(data){
 
 
 
-
-function hemul_koladaN13008n11010u11401u11402u11415u11419n15100n11804n15033u15502(widget) {
-	return {markup: '<div>hejhej</div>', callback: ''};
-}
 
 function rainfallCallback(data){	
 	var station = data.data.station;
