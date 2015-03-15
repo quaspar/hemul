@@ -14,7 +14,7 @@ function hemul_electionresults(widget){
 // Nöjd region-index (Helheten) Kolada U00402
 // Nöjd Region-Index - Bostäder U07406
 function hemul_koladaU00402u00405u00408u07406(widget){
-	return {markup: '<div id="koladaContainer"><div>', callback: 'koladaCallback'};
+	return {markup: '<div id="koladaContainer"></div><div style="text-align: center;"><cite>Läs mer om <a href="http://www.scb.se/sv_/Vara-tjanster/Insamling-och-undersokning/Medborgarundersokningen/Resultat-2014">Medborgarundersökningen</a> hos SCB</cite></div>', callback: 'koladaCallback'};
 }
 
 function hemul_koladaU11401u11402u11415u11419u15502(widget) {
@@ -75,8 +75,7 @@ function koladaCallback(data){
         },
 
         title: {
-            text: 'Nöjdhetsindex',
-            x: -80
+            text: 'Så nöjda är invånarna i ' + data.municipality,
         },
 
         pane: {
@@ -101,6 +100,7 @@ function koladaCallback(data){
 
         series: [{
             name: 'Nöjdhet',
+            color: '#FF6699',
             data: dataArray,
             pointPlacement: 'on',
             type: 'area'
@@ -110,8 +110,13 @@ function koladaCallback(data){
 }
 
 
-function rainfallCallback(data){
-	
+
+
+function hemul_koladaN13008n11010u11401u11402u11415u11419n15100n11804n15033u15502(widget) {
+	return {markup: '<div>hejhej</div>', callback: ''};
+}
+
+function rainfallCallback(data){	
 	var station = data.data.station;
 	delete data.data.station;
 	var dataArray = [];
@@ -129,8 +134,6 @@ function rainfallCallback(data){
        }
     }
 
-    
-
     $('#rainfallContainer').highcharts({
         chart: {
             type: 'spline',
@@ -145,6 +148,9 @@ function rainfallCallback(data){
         xAxis: {
             categories: labelArray
         },
+        legend: {
+            enabled: false
+        },
         yAxis: {
             title: {
                 text: 'Andel dagar med nederbörd'
@@ -153,7 +159,9 @@ function rainfallCallback(data){
                 formatter: function () {
                     return this.value + '%';
                 }
-            }
+            },
+            min: 0, 
+            max: 100
         },
         tooltip: {
             crosshairs: true,
