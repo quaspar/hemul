@@ -37,13 +37,13 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 }
 
 function hemul_jobs(widget) {
-	var myTable = '<table class="table table-stripped table-bordered">';
+	var myTable = '<div style="text-align: center; margin-bottom: 10px; font-size: 18px; color: #333333;">Lediga jobb i ' + widget.municipality + '</div><table class="table table-stripped table-bordered">';
 	$.each(widget.data.matchningslista, function(key, value) {
-		if (key !== 'antal_sidor') {
+		if (key !== 'antal sidor' && key !== 'antal platserTotal') {
 			myTable += '<tr><td>' + key + '</td><td>' + value + '</td></tr>';
 		}
 	});
-	myTable += '</table>';
+	myTable += '</table>' + '<div style="text-align: center;"><cite>Hitta fler jobb i ' + widget.municipality + ' på <a href="http://www.arbetsformedlingen.se/">arbetsformedlingen.se</a></cite></div>';
 	return {markup: myTable};
 }
 
