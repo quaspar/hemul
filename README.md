@@ -9,12 +9,14 @@ Alpha-versionen som vi har kodad under helgen fungerar endast på Hemnets sajt. 
 om den omgivande miljön och det omgivande samhället när du tittar på ett hus, vilket väl kan vara nog så viktigt som antal rum och pris?
 
 ## Hämta och installera
-Hämta tilläget: http://hemul.fria.nu/hemul.crx
-
-Installera tilläget:
 *1. hämta tilläget: http://hemul.fria.nu/hemul.crx
 *2. öppna Chrome
 *3. navigera till chrome://extensions och dra .crx filen
+
+Installera tilläget:
+* 1. expandera zip filen 
+* 2. öppna Chrome
+* 3. navigera till chrome://extensions
 
 Presentation: http://youtu.be/a54R7YedOzk
 
