@@ -23,6 +23,16 @@ include 'hemul.php';
 $hemul = new hemul($coordinates[0], $coordinates[1], $adress);
 $kommunArray = $hemul->getKommunfromcoordinates();
 $kommun = isset($kommunArray['MunicipalityName']) ? $kommunArray['MunicipalityName'] : $adress;
+if (substr($_REQUEST['directive'], 0, 6) == 'kolada') {
+	$params = str_split($_REQUEST['directive'], 6);
+	$directive = $params[0];
+	unset($params[0]);
+	$param = implode(',', $params);
+}
+else {
+	$directive = $_REQUEST['directive'];
+}
+
 $directive = explode('_', $_REQUEST['directive']);
 
 $funcname = 'get' . ucfirst($directive[0]);
