@@ -18,6 +18,8 @@ app.directive('hemulWidget', function($compile, $http){
    			if (attrs['$attr'].hasOwnProperty(property)) {
         		$http.get('http://hemul.fria.nu/ajaxhandler.php?directive='+property+'&properties='+scope.properties).success(function (result) {
         			console.log(property,result);
+				console.log('result: ' + result);
+				console.log('result.id: ' + result.id);
     				var rendered = window["hemul_"+result.id](result);
     				console.log(rendered);
     				var markup = '<div>' + rendered.markup + '</div>';
