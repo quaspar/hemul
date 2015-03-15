@@ -37,7 +37,7 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 }
 
 function hemul_jobs(widget) {
-	var myTable = '<table style="margin-top: 8px;" class="table table-stripped table-bordered">';
+	var myTable = '<table class="table table-stripped table-bordered">';
 	$.each(widget.data.matchningslista, function(key, value) {
 		if (key !== 'antal_sidor') {
 			myTable += '<tr><td>' + key + '</td><td>' + value + '</td></tr>';
