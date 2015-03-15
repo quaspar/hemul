@@ -7,7 +7,6 @@ class hemul {
 		$this->lon = $lon;
 		$loc = $this::getKommunfromcoordinates();
 		$this->adr = isset($loc['MunicipalityName']) ? $loc['MunicipalityName'] : $adr;
-		$this->viss = '826f42a326945049d0309a48a01b1a68';
 	}
 	
 	/* http://opendata.smhi.se/apidocs/metobs/ */	
@@ -194,7 +193,8 @@ class hemul {
 	}
 
 	private function requestVISS() {
-		$url = "http://viss.lansstyrelsen.se/api?method=coordinateinfo&apikey=" . $this->viss . "&format=json&x=" . $this->lat . "&y=" . $this->lon . "&coordinateformat=WGS84";
+		$apikey = '826f42a326945049d0309a48a01b1a68';
+		$url = "http://viss.lansstyrelsen.se/api?method=coordinateinfo&apikey=" . $apikey . "&format=json&x=" . $this->lat . "&y=" . $this->lon . "&coordinateformat=WGS84";
 		$result = file_get_contents($url);
 		return json_decode($result, true);
 

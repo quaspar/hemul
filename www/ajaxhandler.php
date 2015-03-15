@@ -31,12 +31,10 @@ if (substr($_REQUEST['directive'], 0, 6) == 'kolada') {
 }
 else {
 	$directive = $_REQUEST['directive'];
+	$param = NULL;
 }
 
-$directive = explode('_', $_REQUEST['directive']);
-
-$funcname = 'get' . ucfirst($directive[0]);
-$param = isset($directive[1]) ? $directive[1] : NULL;
+$funcname = 'get' . ucfirst($directive);
 
 if (method_exists($hemul, $funcname)) {
 	json_response(array('status' => 1, 'id' => $_REQUEST['directive'], 'data' => $hemul->$funcname($param), 'municipality' => $kommun));
