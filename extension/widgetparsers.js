@@ -11,10 +11,65 @@ function hemul_electionresults(widget){
 	return obj;
 }
 
+// Nöjd region-index (Helheten) Kolada U00402
+// Nöjd Region-Index - Bostäder U07406
+function hemul_koladaU00402u00405u00408u07406(widget){
+	return {markup: '<div id="koladaContainer"><div>', callback: 'koladaCallback'};
+}
+
+function koladaCallback(data){
+    var year = "2013";
+    $('#koladaContainer').highcharts({
+
+        chart: {
+            polar: true,
+            type: 'line',
+            width: 570
+        },
+
+        title: {
+            text: 'Nöjdhetsindex',
+            x: -80
+        },
+
+        pane: {
+            size: '80%'
+        },
+
+        xAxis: {
+            categories: ['Nöjd Region', 'Nöjd Region – Trygghet', 'Nöjd Inflytande', 'Nöjd Region – Bostäder'],
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+
+        yAxis: {
+            lineWidth: 0,
+            min: 0
+        },
+
+        tooltip: {
+            shared: true,
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+        },
+
+        series: [{
+            name: 'Nöjdhet',
+            data: [	data.data.U00402[year].value, 
+            		data.data.U00405[year].value, 
+            		data.data.U00408[year].value, 
+            		data.data.U07406[year].value
+            	  ],
+            pointPlacement: 'on',
+            type: 'area'
+        }]
+
+    });	
+}
+
+
+
 function rainfallCallback(data){
 	console.log("årsnederbörd", data.data);
-	
-	
 	
 	var station = data.data.station;
 	delete data.data.station;
