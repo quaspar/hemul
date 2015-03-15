@@ -1,3 +1,18 @@
+function hemul_waterInformation(widget){
+	console.log("NearbyWaters", widget.data.NearbyWaters);
+	return {markup: '<div id="waterContainer"><div>', callback: 'waterInformationCallback'};
+}
+
+function waterInformationCallback(widget){
+	var s = document.createElement('script');
+	// TODO: add "script.js" to web_accessible_resources in manifest.json
+	s.src = chrome.extension.getURL('/injectedscript.js');
+	s.onload = function() {
+    	this.parentNode.removeChild(this);
+	};
+	(document.head||document.documentElement).appendChild(s);
+}
+
 function hemul_rainfall(widget){
 	return {markup: '<div id="rainfallContainer"><div>', callback: 'rainfallCallback'};
 }
@@ -17,12 +32,19 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 	return {markup: '<div id="koladaContainer"></div><div style="text-align: center;"><cite>Läs mer om <a href="http://www.scb.se/sv_/Vara-tjanster/Insamling-och-undersokning/Medborgarundersokningen/Resultat-2014">Medborgarundersökningen</a> hos SCB</cite></div>', callback: 'koladaCallback'};
 }
 
+<<<<<<< HEAD
 function hemul_jobs(widget) {
 	var myTable = '<table style="margin-top: 8px;" class="table table-stripped table-bordered">';
 	$.each(widget.data.matchningslista, function(key, value) {
 		if (key !== 'antal_sidor') {
 			myTable += '<tr><td>' + key + '</td><td>' + value + '</td></tr>';
 		}
+=======
+function hemul_koladaU11401u11402u11415u11419u15502(widget) {
+	var arrayData = koladaGetLatestYear(widget);
+	var myTable = '<table class="table table-stripped table-bordered">';
+	$.each(widget.data, function(key, value) {
+>>>>>>> 3456f9e258c5121b21eae60166e94127a6e25c12
 	});
 	myTable += '</table>';
 	return {markup: myTable};
@@ -91,6 +113,10 @@ function koladaCallback(data){
             lineWidth: 0,
             min: 0
         },
+        
+        legend: {
+            enabled: false
+        },
 
         tooltip: {
             shared: true,
@@ -146,9 +172,6 @@ function rainfallCallback(data){
         }, 
         xAxis: {
             categories: labelArray
-        },
-        legend: {
-            enabled: false
         },
         yAxis: {
             title: {

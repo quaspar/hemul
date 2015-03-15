@@ -10,6 +10,8 @@
             <a ng-click="tabs.setTab(3)" href>Nöjdhetsindex</a></li>
           <li ng-class="{active:tabs.isSet(4)}">
             <a ng-click="tabs.setTab(4)" href>Jobs</a></li>
+          <li ng-class="{active:tabs.isSet(5)}">
+            <a ng-click="tabs.setTab(5)" href>Bad</a></li>
         </ul>
         <div ng-controller="WidgetController as widgetCtrl">
 	        <div ng-show="tabs.isSet(0)">
@@ -26,6 +28,9 @@
        		</div>
         	<div ng-show="tabs.isSet(4)">
 				<hemul-widget data-jobs></hemul-widget>
+       		</div>
+        	<div ng-show="tabs.isSet(5)">
+				<hemul-widget data-water-information></hemul-widget>
        		</div>
        	</div>
   		</section>

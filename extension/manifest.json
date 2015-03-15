@@ -32,6 +32,7 @@
   								"hemul.html", 
   								"widget.tpl", 
   								"images/*.jpg", 
-  								"images/*.png"
+  								"images/*.png",
+  								"injectedscript.js"
   							  ]
 }
