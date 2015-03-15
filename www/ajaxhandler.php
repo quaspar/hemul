@@ -37,7 +37,12 @@ else {
 $funcname = 'get' . ucfirst($directive);
 
 if (method_exists($hemul, $funcname)) {
-	json_response(array('status' => 1, 'id' => $_REQUEST['directive'], 'data' => $hemul->$funcname($param), 'municipality' => $kommun));
+	json_response(array('status' => 1, 
+						'id' => $_REQUEST['directive'], 
+						'data' => $hemul->$funcname($param), 
+						'municipality' => $kommun,
+						'coordinates' => $hemul->coordinates
+						));
 }
 else {
 	json_response(array('status' => 0, 'msg' => 'unknown directive'));
