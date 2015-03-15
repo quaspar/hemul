@@ -9,7 +9,7 @@
           <li ng-class="{active:tabs.isSet(3)}">
             <a ng-click="tabs.setTab(3)" href>Nöjdhetsindex</a></li>
           <li ng-class="{active:tabs.isSet(4)}">
-            <a ng-click="tabs.setTab(4)" href>Skola & förskola</a></li>
+            <a ng-click="tabs.setTab(4)" href>Jobs</a></li>
         </ul>
         <div ng-controller="WidgetController as widgetCtrl">
 	        <div ng-show="tabs.isSet(0)">
@@ -25,7 +25,7 @@
 				<hemul-widget data-kolada-u00402u00405u00408U07406></hemul-widget>
        		</div>
         	<div ng-show="tabs.isSet(4)">
-				<hemul-widget data-kolada-u11401u11402u11415u11419u15502></hemul-widget>
+				<hemul-widget data-jobs></hemul-widget>
        		</div>
        	</div>
   		</section>

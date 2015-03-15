@@ -165,6 +165,7 @@ class hemul {
 		 ));
 		$context = stream_context_create($opts);
 		$data = json_decode(file_get_contents($url, false, $context), true);
+		$data = str_replace('_', ' ', $data);
 		unset($data['matchningslista']['matchningdata']);
 		return $data;
 	}

@@ -17,13 +17,13 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 	return {markup: '<div id="koladaContainer"></div><div style="text-align: center;"><cite>Läs mer om <a href="http://www.scb.se/sv_/Vara-tjanster/Insamling-och-undersokning/Medborgarundersokningen/Resultat-2014">Medborgarundersökningen</a> hos SCB</cite></div>', callback: 'koladaCallback'};
 }
 
-function hemul_koladaU11401u11402u11415u11419u15502(widget) {
-	console.log(widget.data);
-	var arrayData = koladaGetLatestYear(widget);
-	var myTable = '<table class="table table-stripped table-bordered">';
-	$.each(widget.data, function(key, value) {
+function hemul_jobs(widget) {
+	var myTable = '<table style="margin-top: 8px;" class="table table-stripped table-bordered">';
+	$.each(widget.data.matchningslista, function(key, value) {
+		if (key !== 'antal_sidor') {
+			myTable += '<tr><td>' + key + '</td><td>' + value + '</td></tr>';
+		}
 	});
-	myTable += '<tr><td>Hej</td><td>Hoj</td>';
 	myTable += '</table>';
 	return {markup: myTable};
 }
