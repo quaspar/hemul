@@ -1,9 +1,12 @@
 function hemul_waterInformation(widget){
 	console.log("NearbyWaters", widget.data.NearbyWaters);
-	return {markup: '<div id="waterContainer"><div>', callback: 'waterInformationCallback'};
+	return {markup: '<div id="waterContainer"><img src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=570x400&maptype=roadmap\
+&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318\
+&markers=color:red%7Clabel:C%7C40.718217,-73.998284"></img><div>', callback: 'waterInformationCallback'};
 }
 
 function waterInformationCallback(widget){
+/*
 	var s = document.createElement('script');
 	// TODO: add "script.js" to web_accessible_resources in manifest.json
 	s.src = chrome.extension.getURL('/injectedscript.js');
@@ -11,6 +14,7 @@ function waterInformationCallback(widget){
     	this.parentNode.removeChild(this);
 	};
 	(document.head||document.documentElement).appendChild(s);
+	*/
 }
 
 function hemul_rainfall(widget){
