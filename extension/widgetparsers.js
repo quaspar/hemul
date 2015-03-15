@@ -69,7 +69,7 @@ function koladaCallback(data){
 
         tooltip: {
             shared: true,
-            pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
+            pointFormat: '<span style="color:{series.color}">{series.name}: <b>{point.y:,.0f} av 100</b><br/>'
         },
 
         series: [{
