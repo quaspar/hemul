@@ -18,7 +18,27 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 }
 
 function koladaCallback(data){
-    var year = "2013";
+	var titleList = {
+		U00402: 'Nöjd på det hela taget',
+		U00405: 'Nöjd med tryggheten',
+		U00408: 'Nöjd med möjligheten till inflytande',
+		U07406: 'Nöjd med bostadssituationen'
+	}
+	var dataArray = [];
+	var labelArray = [];
+	for  (var kpi in data.data){
+		var year = 0;
+		dataArray[kpi] = [];
+		for (var y in data.data[kpi]){
+			var yy = parseInt(y);
+			if (yy > year) {
+				year = yy;
+			}
+			console.log("yy", yy, "year", year);
+		}
+		labelArray.push(titleList[kpi] + ' (' + year + ')');
+		dataArray.push(data.data[kpi][year].value);
+	}
     $('#koladaContainer').highcharts({
 
         chart: {
@@ -37,7 +57,7 @@ function koladaCallback(data){
         },
 
         xAxis: {
-            categories: ['Nöjd Region', 'Nöjd Region – Trygghet', 'Nöjd Inflytande', 'Nöjd Region – Bostäder'],
+            categories: labelArray,
             tickmarkPlacement: 'on',
             lineWidth: 0
         },
@@ -54,11 +74,7 @@ function koladaCallback(data){
 
         series: [{
             name: 'Nöjdhet',
-            data: [	data.data.U00402[year].value, 
-            		data.data.U00405[year].value, 
-            		data.data.U00408[year].value, 
-            		data.data.U07406[year].value
-            	  ],
+            data: dataArray,
             pointPlacement: 'on',
             type: 'area'
         }]
