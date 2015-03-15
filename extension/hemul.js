@@ -47,6 +47,7 @@ app.directive('hemulWidget', function($compile, $http){
 	$scope.properties = getProperties();  	
   	var widgetCtrl = this;
   	
+  	/*
     $scope.supportsGeo = $window.navigator;
     $scope.position = null;
     window.navigator.geolocation.getCurrentPosition(function(position) {
@@ -56,6 +57,7 @@ app.directive('hemulWidget', function($compile, $http){
         }, function(error) {
             console.log("geolocation error", error);
         });
+        */
   	
   }]);
   

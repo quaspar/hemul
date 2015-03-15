@@ -1,3 +1,18 @@
+function hemul_waterInformation(widget){
+	console.log("NearbyWaters", widget.data.NearbyWaters);
+	return {markup: '<div id="waterContainer"><div>', callback: 'waterInformationCallback'};
+}
+
+function waterInformationCallback(widget){
+	var s = document.createElement('script');
+	// TODO: add "script.js" to web_accessible_resources in manifest.json
+	s.src = chrome.extension.getURL('/injectedscript.js');
+	s.onload = function() {
+    	this.parentNode.removeChild(this);
+	};
+	(document.head||document.documentElement).appendChild(s);
+}
+
 function hemul_rainfall(widget){
 	return {markup: '<div id="rainfallContainer"><div>', callback: 'rainfallCallback'};
 }
@@ -18,7 +33,6 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 }
 
 function hemul_koladaU11401u11402u11415u11419u15502(widget) {
-	console.log(widget.data);
 	var arrayData = koladaGetLatestYear(widget);
 	var myTable = '<table class="table table-stripped table-bordered">';
 	$.each(widget.data, function(key, value) {
@@ -91,6 +105,10 @@ function koladaCallback(data){
             lineWidth: 0,
             min: 0
         },
+        
+        legend: {
+            enabled: false
+        },
 
         tooltip: {
             shared: true,
@@ -146,9 +164,6 @@ function rainfallCallback(data){
         }, 
         xAxis: {
             categories: labelArray
-        },
-        legend: {
-            enabled: false
         },
         yAxis: {
             title: {
