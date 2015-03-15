@@ -68,6 +68,10 @@ function koladaCallback(data){
 
 
 
+function hemul_koladaN13008n11010u11401u11402u11415u11419n15100n11804n15033u15502(widget) {
+	return {markup: '<div>hejhej</div>', callback: ''};
+}
+
 function rainfallCallback(data){
 	console.log("årsnederbörd", data.data);
 	
