@@ -1,8 +1,16 @@
 function hemul_waterInformation(widget){
-	console.log("NearbyWaters", widget.data.NearbyWaters);
-	return {markup: '<div id="waterContainer"><img src="https://maps.googleapis.com/maps/api/staticmap?center=Brooklyn+Bridge,New+York,NY&zoom=13&size=570x400&maptype=roadmap\
-&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318\
-&markers=color:red%7Clabel:C%7C40.718217,-73.998284"></img><div>', callback: 'waterInformationCallback'};
+	if (typeof widget.data.NearbyWaters[0] === "undefined" || typeof widget.data.NearbyWaters[0].XCoordinate === "undefined"){
+		return {markup: '<div id="waterContainer"><h3>Uppgifter om närmaste sjö saknas.</h3></div>'};
+	}
+	console.log("NearbyWaters", widget.data.NearbyWaters[0].XCoordinate);
+	console.log("widgetcoords", widget.coordinates);
+	nearbyX = parseFloat(widget.data.NearbyWaters[0].XCoordinate.replace(',', '.'));
+	nearbyY = parseFloat(widget.data.NearbyWaters[0].YCoordinate.replace(',', '.'));
+	return {markup: '<div id="waterContainer"><img src="https://maps.googleapis.com/maps/api/staticmap?size=570x400&maptype=roadmap&markers=color%3Ablue%7Clabel%3AS%7C'
+		+widget.coordinates[0]+'%2C'+widget.coordinates[1]
+		+'&markers=color%3Agreen%7Clabel%3AG%7C'
+		+nearbyX+'%2C'+nearbyY 
+		+ '"></img><div>'};
 }
 
 function waterInformationCallback(widget){
