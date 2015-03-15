@@ -41,7 +41,7 @@ if (method_exists($hemul, $funcname)) {
 						'id' => $_REQUEST['directive'], 
 						'data' => $hemul->$funcname($param), 
 						'municipality' => $kommun,
-						'coordinates' => $hemul->coordinates
+						'coordinates' => $coordinates
 						));
 }
 else {
