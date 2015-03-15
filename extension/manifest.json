@@ -7,8 +7,8 @@
     "https://hemul.fria.nu/ajaxhandler.php", "http://hemul.fria.nu/ajaxhandler.php", "geolocation"
   ],
   "icons": {
-    "48" : "sample-48.png",
-    "128" : "sample-128.png"
+    "48" : "opendata-48.png",
+    "128" : "opendata-128.png"
   },
   "content_scripts": [
     {
