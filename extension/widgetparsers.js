@@ -17,6 +17,34 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 	return {markup: '<div id="koladaContainer"><div>', callback: 'koladaCallback'};
 }
 
+function hemul_koladaU11401u11402u11415u11419u15502(widget) {
+	console.log(widget);
+	var arrayData = koladaGetLatestYear(widget);
+	console.log(arrayData);
+	var myTable = '<table class="table table-stripped table-bordered">';
+	$.each(widget.data, function(key, value) {
+	});
+	myTable += '<tr><td>Hej</td><td>Hoj</td>';
+	myTable += '</table>';
+	return {markup: myTable};
+}
+
+function koladaGetLatestYear(data) {
+	var dataArray = [];
+	for  (var kpi in data.data){
+		var year = 0;
+		dataArray[kpi] = [];
+		for (var y in data.data[kpi]){
+			var yy = parseInt(y);
+			if (yy > year) {
+				year = yy;
+			}
+		}
+		dataArray.push(data.data[kpi][year].value);
+	}
+	return dataArray;
+}
+
 function koladaCallback(data){
 	var titleList = {
 		U00402: 'Nöjd på det hela taget',
@@ -34,7 +62,6 @@ function koladaCallback(data){
 			if (yy > year) {
 				year = yy;
 			}
-			console.log("yy", yy, "year", year);
 		}
 		labelArray.push(titleList[kpi] + ' (' + year + ')');
 		dataArray.push(data.data[kpi][year].value);
@@ -83,13 +110,7 @@ function koladaCallback(data){
 }
 
 
-
-function hemul_koladaN13008n11010u11401u11402u11415u11419n15100n11804n15033u15502(widget) {
-	return {markup: '<div>hejhej</div>', callback: ''};
-}
-
 function rainfallCallback(data){
-	console.log("årsnederbörd", data.data);
 	
 	var station = data.data.station;
 	delete data.data.station;

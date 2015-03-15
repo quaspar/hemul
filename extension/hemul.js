@@ -17,11 +17,7 @@ app.directive('hemulWidget', function($compile, $http){
     	for (var property in attrs['$attr']) {
    			if (attrs['$attr'].hasOwnProperty(property)) {
         		$http.get('http://hemul.fria.nu/ajaxhandler.php?directive='+property+'&properties='+scope.properties).success(function (result) {
-        			console.log(property,result);
-				console.log('result: ' + result);
-				console.log('result.id: ' + result.id);
     				var rendered = window["hemul_"+result.id](result);
-    				console.log(rendered);
     				var markup = '<div>' + rendered.markup + '</div>';
        				element.html($compile(markup)(scope));
        				if (typeof rendered.callback !== 'undefined' && rendered.callback){
@@ -56,7 +52,6 @@ app.directive('hemulWidget', function($compile, $http){
     window.navigator.geolocation.getCurrentPosition(function(position) {
             $scope.$apply(function() {
                 $scope.position = position;
-                console.log("$scope.position", $scope.position);
             });
         }, function(error) {
             console.log("geolocation error", error);
