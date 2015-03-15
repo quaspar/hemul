@@ -1,53 +1,22 @@
-# hemul
-Testa chrome-tillägget:
-klona repon på datorn. Gå till "Tillägg" i Chrome. Klicka på "Lägg till okomprimerat tillägg" och leta upp katalogen extension i din repoklon.
+# Hemul
+Hack for Sweden-myndigheterna erbjuder så mycket data, att om man samlar dem kan de bli intressanta i nästan
+vilka sammanhang som helst. Det är det vi har gjort.
+Installera Hemul – vårt tillägg till webbläsaren Chrome – så kommer du att ha relevanta data nära till hands
+varje gång du surfar in på en webbsida som handlar om en plats i Sverige. Hemul känner automatiskt av vilken plats 
+det rör sig om, och hämtar information om valresultat i kommunen, hur nöjda invånarna är, hur långt det är 
+till närmaste sjö och om det går att äta fisken där, för att ta några exempel.
+Alpha-versionen som vi har kodad under helgen fungerar endast på Hemnets sajt. Med Hemul får du se information
+om den omgivande miljön och det omgivande samhället när du tittar på ett hus, vilket väl kan vara nog så viktigt som antal rum och pris?
 
-Natur och miljö
-- Meteorologiska observationer
-- Temperatur och nederbörd
-- badvattenkvalitet
-- Miljöövervakning av Metaller och organiska miljögifter i marin biota. (Excel)
-- Fiskförekomster i sötvatten per län
-- avverkningsanmälningar
-- Framtida klimat
-- Havsmiljödata, kemiska och fysikaliska data
-- Hållbar utveckling kommun/landsting
-- Hänsynsdata
-- Lufthalter i realtid
-- Miljöövervakning av bensen i luft (Excel)
-- Miljöövervakning av deposition (nedfall) av bland annat svavel och kväve. (Excel)
-- Miljöövervakning av flyktiga organiska ämnen samt polyaromatiska kolväten i tätortsmiljö (Excel)
-- Miljöövervakning av kolmonoxid i luft (Excel)
-- Miljöövervakning av kvicksilver i nederbörd (Excel)
-- Miljöövervakning av marknära ozon
-- Miljöövervakning av Metaller och organiska miljögifter i sediment
-- Miljöövervakning av organiska miljögifter i luft och nederbörd (Tidsserier för halter av persistenta organiska miljögifter (POPs) (Excel)
-- Miljöövervakning av sotpartiklar i luft
-- Miljöövervakning grundvatten
-- Skyddad natur
-- Skyddade områden
-- Skyddade områden Natura 2000
-- Översiktlig översvämningskartering (Shape)
+## Hämta och installera
+Hämta tilläget: http://hemul.fria.nu/hemul.zip
 
-Människor
-- Antal lediga jobb per kommun
-- Inkomst	(Förvärvsinkomst för personer, fördelat på kommun)
-- Inkomstfördelning (Andel personer i olika inkomstintervall)
-- Jämställdhet 
-- Kvalitetsjämförelser inom välfärdssektorn - kommun
-- Kvalitetsjämförelser inom välfärdssektorn - landsting
-- Medborgarundersökningen
-- Vuxnas levnadsförhållanden
-- Utbildning
+Installera tilläget:
+* 1. expandera zip filen 
+* 2. öppna Chrome
+* 3. navigera till chrome://extensions
+* 4. klicka på "hämta okomprimerat tillägg.." och välja katalogen från steg 1.
 
+Presentation: http://youtu.be/a54R7YedOzk
 
-Infrastruktur och samhälle
-- Valresultat
-- Fornminnen, Historisk/k-märkt bebyggelse, Fotografier, Föremålsbeskrivningar och bilder från svenska museer
-- Partisympatier	(Valresultat om det varit val i dag)
-- Servicedata (Livsmedelsbutiker 1994 & 2012) GeoJSON
-- Skattesats	(Skattesats, fördelat på kommun)
-- Vindkraftverk och projekteringsområden i Sverige (Excel och WMS)
-
-Ekonomi och Finans
-- Kommunala skattesatser 2015
+Källkod: https://github.com/quaspar/hemul
