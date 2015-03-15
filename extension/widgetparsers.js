@@ -18,9 +18,8 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 }
 
 function hemul_koladaU11401u11402u11415u11419u15502(widget) {
-	console.log(widget);
+	console.log(widget.data);
 	var arrayData = koladaGetLatestYear(widget);
-	console.log(arrayData);
 	var myTable = '<table class="table table-stripped table-bordered">';
 	$.each(widget.data, function(key, value) {
 	});
