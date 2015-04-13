@@ -45,6 +45,34 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 }
 
 function hemul_jobs(widget) {
+            console.log("hemul_jobs", widget);
+var jobsearchform =  '<form class="form-horizontal">\
+<fieldset>\
+<!-- Form Name -->\
+<legend>Sök jobb i ' + widget.municipality + '</legend>\
+\
+<!-- Text input-->\
+<div class="control-group">\
+  <label class="control-label" for="nyckelord" style="float:left;padding-top:4px;padding-right:6px">Fritextsökning</label>\
+  <div class="controls">\
+    <input id="nyckelord" name="nyckelord" type="text" placeholder="exempel: bagare heltid" class="input-xlarge" style="float: left; margin-right: 6px">\
+    \
+  </div>\
+</div>\
+\
+<!-- Button -->\
+<div class="control-group">\
+  <div class="controls">\
+    <button id="jobsearchbutton" name="jobsearchbutton" class="btn btn-info" style="padding-top:4px; padding-bottom:4px">Sök</button>\
+  </div>\
+</div>';
+    return {markup: jobsearchform};
+}
+
+
+/*
+function hemul_jobs(widget) {
+            console.log("hemul_jobs", widget);
 	var myTable = '<div style="text-align: center; margin-bottom: 10px; font-size: 18px; color: #333333;">Lediga jobb i ' + widget.municipality + '</div><table class="table table-stripped table-bordered">';
 	$.each(widget.data.matchningslista, function(key, value) {
 		if (key !== 'antal sidor' && key !== 'antal platserTotal') {
@@ -54,6 +82,7 @@ function hemul_jobs(widget) {
 	myTable += '</table>' + '<div style="text-align: center;"><cite>Hitta fler jobb i ' + widget.municipality + ' på <a href="http://www.arbetsformedlingen.se/">arbetsformedlingen.se</a></cite></div>';
 	return {markup: myTable};
 }
+*/
 
 function koladaGetLatestYear(data) {
 	var dataArray = [];
