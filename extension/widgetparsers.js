@@ -66,7 +66,25 @@ var jobsearchform =  '<form class="form-horizontal">\
     <button id="jobsearchbutton" name="jobsearchbutton" class="btn btn-info" style="padding-top:4px; padding-bottom:4px">Sök</button>\
   </div>\
 </div>';
-    return {markup: jobsearchform};
+    return {markup: jobsearchform, callback: "jobsCallback"};
+}
+
+function jobsCallback(widget){
+    $("#jobsearchbutton").click(function(){
+        var url = "http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning";
+        // var nyckelord = $("#nyckelord").value();
+        var nyckelord = "test";
+
+        $.getJSON(url, {
+            // kommunid: widget.data.kommunid,
+            kommunid: "2101",
+            nyckelord: nyckelord
+        })
+        .done(function(data){
+            alert("nu fick vi data!");
+        });
+
+    });
 }
 
 
