@@ -155,6 +155,7 @@ class hemul {
 	/* http://www.arbetsformedlingen.se/download/18.362b127c14924e08e87137a/1424696315134/tekniskbeskr_ledigajobb.pdf */
 	public function getJobs() {
 		$kommun = $this::scbGetKommun();
+		return $kommun;
 		if (!$kommun) return NULL;
 		$url = "http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning?kommunid=" . $kommun;
 		$opts = array(
