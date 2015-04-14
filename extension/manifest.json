@@ -4,7 +4,11 @@
   "manifest_version": 2,
   "description": "Lägger till områdesinformation till annonser på en bostadssajt.",
   "permissions": [
-    "https://hemul.fria.nu/ajaxhandler.php", "http://hemul.fria.nu/ajaxhandler.php", "geolocation"
+      "https://hemul.fria.nu/ajaxhandler.php", 
+      "http://hemul.fria.nu/ajaxhandler.php", 
+      "http://api.arbetsformedlingen.se/",
+      "https://api.arbetsformedlingen.se/",
+      "geolocation"
   ],
   "icons": {
     "48" : "opendata-48.png",
