@@ -45,11 +45,11 @@ function hemul_koladaU00402u00405u00408u07406(widget){
 }
 
 function hemul_jobs(widget) {
-            console.log("hemul_jobs", widget);
+// console.log("hemul_jobs", widget);
 var jobsearchform =  '<form class="form-horizontal">\
 <fieldset>\
 <!-- Form Name -->\
-<legend>Sök jobb i ' + widget.municipality + '</legend>\
+<legend>Sök jobb nära '+widget.municipality+'</legend>\
 \
 <!-- Text input-->\
 <div class="control-group">\
@@ -65,23 +65,32 @@ var jobsearchform =  '<form class="form-horizontal">\
   <div class="controls">\
     <button id="jobsearchbutton" name="jobsearchbutton" class="btn btn-info" style="padding-top:4px; padding-bottom:4px">Sök</button>\
   </div>\
-</div>';
-    return {markup: jobsearchform, callback: "jobsCallback"};
+</div>\
+</form>\
+<div id="jobdata" style="clear:both"><ul></ul></div>';
+return {markup: jobsearchform, callback: "jobsCallback"};
 }
 
 function jobsCallback(widget){
     $("#jobsearchbutton").click(function(){
         var url = "http://api.arbetsformedlingen.se/af/v0/platsannonser/matchning";
-        // var nyckelord = $("#nyckelord").value();
-        var nyckelord = "test";
+        var nyckelord = $("#nyckelord").val();
 
         $.getJSON(url, {
             // kommunid: widget.data.kommunid,
-            kommunid: "2101",
+            kommunid: widget.data,
             nyckelord: nyckelord
         })
         .done(function(data){
-            alert("nu fick vi data!");
+            // console.log("Från af: ", data);
+            var joblist = "";
+            var lista = data.matchningslista.matchningdata;
+            for (var annons = 0; annons < lista.length; annons++){
+                joblist = joblist + '<li><a target="_blank" href="http://www.arbetsformedlingen.se/4.1799db4911df80d2fa9800024.html?id='+lista[annons].annonsid+'">'+lista[annons].annonsrubrik+'</a></li>';
+            }
+            $("#jobdata ul").html(joblist);
+            // console.log("joblist", joblist);
+
         });
 
     });
