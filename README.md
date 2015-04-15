@@ -11,12 +11,12 @@ om den omgivande miljön och det omgivande samhället när du tittar på ett hus
 ## Hämta och installera
 
 Installera (komprimerad version)
-* 1. hämta tilläget: http://hemul.fria.nu/hemul.crx
+* 1. hämta tilläget: https://github.com/quaspar/hemul/raw/master/hemul.crx
 * 2. öppna Chrome
 * 3. navigera till chrome://extensions och dra .crx filen
 
 Om det inte fungerar: installera (okomprimerad version)
-* 1. hämta tilläget: http://hemul.fria.nu/hemul.zip
+* 1. hämta tilläget: https://github.com/quaspar/hemul/raw/master/hemul.zip
 * 2. expandera zip filen
 * 3. öppna Chrome
 * 4. navigera till chrome://extensions, klicka "hämta okomprimerad tillägg" och välja katalogen från steg 2
